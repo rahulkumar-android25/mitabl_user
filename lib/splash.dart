@@ -23,6 +23,8 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Center(
         child: Padding(
+
+
           padding: const EdgeInsets.all(0),
           child: Image.asset(
             'assets/img/logo.png',
