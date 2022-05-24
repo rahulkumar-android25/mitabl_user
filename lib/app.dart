@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 import 'package:mitabl_user/repos/user_repository.dart';
 import 'package:mitabl_user/route_generator.dart';
@@ -32,6 +31,12 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (_) => AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
+              userRepository: userRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (_) => LoginCubit(
               authenticationRepository: authenticationRepository,
               userRepository: userRepository,
             ),
@@ -85,9 +90,8 @@ class _AppViewState extends State<AppView> {
                 case AuthenticationStatus.unauthenticated:
                   print('app:-unauthenticated');
 
-                  // _navigator!
-                  //     .pushNamedAndRemoveUntil('/LoginPage', (route) => false);
-
+                  _navigator!.pushNamedAndRemoveUntil(
+                      '/LandingPage', (route) => false);
 
                   break;
                 default:

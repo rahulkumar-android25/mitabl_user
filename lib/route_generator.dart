@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mitabl_user/pages/landing_page/landing_page.dart';
+import 'package:mitabl_user/pages/login/view/login_page.dart';
 import 'package:mitabl_user/splash.dart';
 
 class RouteGenerator {
@@ -10,6 +12,12 @@ class RouteGenerator {
     switch (settings.name) {
       case '/Splash':
         return MaterialPageRoute<void>(builder: (_) => SplashPage());
+
+      case '/LandingPage':
+        return const LandingPage().route();
+
+      case '/LoginPage':
+        return LoginPage.route();
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

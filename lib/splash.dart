@@ -16,15 +16,11 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Center(
         child: Padding(
-
-
           padding: const EdgeInsets.all(0),
           child: Image.asset(
             'assets/img/logo.png',

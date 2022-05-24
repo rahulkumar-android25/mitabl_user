@@ -67,7 +67,7 @@ class AppColors {
   Color colorPrimary(double opacity) {
     try {
       // return  const Color.fromARGB(255, 42, 49, 91);
-      return const Color(0xff6e5fc0);
+      return const Color(0xff0071BC);
       // return const Color(0xFF4A439F);
     } catch (e) {
       return const Color(0xFFCCCCCC).withOpacity(opacity);
@@ -88,7 +88,7 @@ class AppColors {
     try {
       // return  const Color(0xFF286704).withOpacity(opacity);
       // return  Colors.black;
-      return const Color(0xFF4A439F);
+      return const Color(0xFF666666);
       // return const Color(0xFF4A439F);
       // return const Color(0xFF7366FF);
     } catch (e) {
@@ -185,7 +185,4 @@ class AppColors {
       return const Color(0xFFCCCCCC).withOpacity(opacity);
     }
   }
-
-
-
 }
