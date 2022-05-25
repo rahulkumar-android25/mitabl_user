@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mitabl_user/pages/landing_page/landing_page.dart';
 import 'package:mitabl_user/pages/login/view/login_page.dart';
+import 'package:mitabl_user/pages/signup/view/signup_page.dart';
 import 'package:mitabl_user/splash.dart';
 
 class RouteGenerator {
@@ -18,6 +19,9 @@ class RouteGenerator {
 
       case '/LoginPage':
         return LoginPage.route();
+
+      case '/SignUpPage':
+        return SignUpPage.route();
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

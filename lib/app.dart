@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
+import 'package:mitabl_user/pages/signup/cubit/sign_up_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 import 'package:mitabl_user/repos/user_repository.dart';
 import 'package:mitabl_user/route_generator.dart';
@@ -37,6 +38,12 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => LoginCubit(
+              authenticationRepository: authenticationRepository,
+              userRepository: userRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (_) => SignUpCubit(
               authenticationRepository: authenticationRepository,
               userRepository: userRepository,
             ),

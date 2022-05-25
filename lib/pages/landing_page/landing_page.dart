@@ -64,7 +64,9 @@ class _LandingPageState extends State<LandingPage> {
             MaterialButton(
               height: config.AppConfig(context).appHeight(6),
               minWidth: config.AppConfig(context).appWidth(70),
-              onPressed: () {},
+              onPressed: () {
+                navigatorKey.currentState!.pushNamed('/SignUpPage');
+              },
               color: Theme.of(context).primaryColorDark,
               child: Text(
                 'CREATE NEW ACCOUNT',
