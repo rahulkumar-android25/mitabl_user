@@ -106,7 +106,15 @@ class AppColors {
 
   Color textFieldBackgroundColor(double opacity) {
     try {
-      return const Color(0xFFF4F5F7).withOpacity(opacity);
+      return const Color(0xFFE9E9E9).withOpacity(opacity);
+    } catch (e) {
+      return const Color(0xFFCCCCCC).withOpacity(opacity);
+    }
+  }
+
+  Color hintTextBackgroundColor(double opacity) {
+    try {
+      return const Color(0xFFAEAEAE).withOpacity(opacity);
     } catch (e) {
       return const Color(0xFFCCCCCC).withOpacity(opacity);
     }
