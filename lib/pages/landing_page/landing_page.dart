@@ -45,8 +45,7 @@ class _LandingPageState extends State<LandingPage> {
               height: config.AppConfig(context).appHeight(6),
               minWidth: config.AppConfig(context).appWidth(70),
               onPressed: () {
-                navigatorKey.currentState!
-                    .pushNamedAndRemoveUntil('/LoginPage', (route) => false);
+                navigatorKey.currentState!.pushNamed('/LoginPage');
               },
               color: Theme.of(context).primaryColor,
               child: Text(
@@ -60,7 +59,7 @@ class _LandingPageState extends State<LandingPage> {
                       config.AppConfig(context).appWidth(10))),
             ),
             SizedBox(
-              height: config.AppConfig(context).appHeight(1),
+              height: config.AppConfig(context).appHeight(2),
             ),
             MaterialButton(
               height: config.AppConfig(context).appHeight(6),

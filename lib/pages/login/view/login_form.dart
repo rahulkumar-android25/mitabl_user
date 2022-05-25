@@ -62,13 +62,11 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
           height: config.AppConfig(context).appHeight(100),
           child: Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: config.AppConfig(context).appHeight(2),
                         left: config.AppConfig(context).appWidth(5),
                         right: config.AppConfig(context).appWidth(5)),
                     child: Container(
@@ -78,6 +76,9 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
                         padding: EdgeInsets.zero,
                         child: Column(
                           children: [
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(15),
+                            ),
                             Column(
                               children: [
                                 Image.asset(
@@ -106,7 +107,7 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
                               ],
                             ),
                             SizedBox(
-                              height: config.AppConfig(context).appHeight(8),
+                              height: config.AppConfig(context).appHeight(10),
                             ),
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +133,7 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
                                         fontSize: config.AppConfig(context)
                                             .appHeight(1.5),
                                         color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
                                     height:
@@ -188,7 +189,7 @@ class _MobilePhoneState extends State<_MobilePhone> {
             style: TextStyle(color: Colors.black),
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
-            maxLength: 15,
+            maxLength: 55,
             onChanged: (text) {
               context.read<LoginCubit>().onEmailChanged(value: text);
             },
@@ -204,41 +205,41 @@ class _MobilePhoneState extends State<_MobilePhone> {
                     )
                   : SizedBox(),
               hintStyle: GoogleFonts.gothicA1(
-                  color: Colors.grey,
+                  color: Theme.of(context).hintColor,
                   fontSize: config.AppConfig(context).appWidth(4)),
               // labelText: 'Mobile Number',
               hintText: 'Username',
               contentPadding:
-                  EdgeInsets.all(config.AppConfig(context).appWidth(2)),
+                  EdgeInsets.all(config.AppConfig(context).appWidth(3)),
               fillColor: config.AppColors().textFieldBackgroundColor(1),
               filled: true,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               border: InputBorder.none,
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
@@ -287,45 +288,45 @@ class _PasswordState extends State<_Password> {
                 },
                 color: Colors.white,
                 icon: Icon(
-                  !state.showPassword ? Icons.visibility_off : Icons.visibility,
+                  !state.showPassword ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorLight,
                 ),
               ),
               hintStyle: GoogleFonts.gothicA1(
-                  color: Colors.grey,
+                  color: Theme.of(context).hintColor,
                   fontSize: config.AppConfig(context).appWidth(4)),
               hintText: 'Password',
               contentPadding:
-                  EdgeInsets.all(config.AppConfig(context).appWidth(4)),
+                  EdgeInsets.all(config.AppConfig(context).appWidth(3)),
               fillColor: config.AppColors().textFieldBackgroundColor(1),
               filled: true,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               border: InputBorder.none,
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
@@ -363,8 +364,8 @@ class _LoginButton extends StatelessWidget {
                               Theme.of(context).primaryColor,
                             ]
                           : [
-                              Theme.of(context).primaryColor,
-                              Theme.of(context).primaryColor,
+                              Theme.of(context).primaryColorLight,
+                              Theme.of(context).primaryColorLight,
                             ],
                     )),
                 child: MaterialButton(
