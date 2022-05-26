@@ -37,7 +37,7 @@ class AuthenticationRepository {
   }) async {
     // try {
     final url =
-        '${GlobalConfiguration().getValue<String>('api_base_url')}Login/Login';
+        '${GlobalConfiguration().getValue<String>('api_base_url')}login';
 
     print(url);
 
@@ -64,6 +64,35 @@ class AuthenticationRepository {
     //print('app:-unauthenticated_logOut');
     controller.add(AuthenticationStatus.unauthenticated);
   }
+
+
+  Future<dynamic?> signUp({
+    required Map<String, dynamic> data,
+  }) async {
+    // try {
+    final url =
+        '${GlobalConfiguration().getValue<String>('api_base_url')}register';
+
+    print(url);
+
+    final client = http.Client();
+
+    final response = await client.post(Uri.parse(url),
+        // headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(data));
+
+    if (response.statusCode == 200) {
+      return response;
+    }
+    return response;
+    // } catch (e) {
+    //   print('exception $e');
+    // }
+  }
+
 
   void dispose() => controller.close();
 }

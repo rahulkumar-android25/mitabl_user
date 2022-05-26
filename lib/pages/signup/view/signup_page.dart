@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
+import 'package:mitabl_user/repos/authentication_repository.dart';
 
 import '../cubit/sign_up_cubit.dart';
 
@@ -18,7 +19,7 @@ class SignupPage extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
-              create: (context) => SignUpCubit(),
+              create: (context) => SignUpCubit(context.read<AuthenticationRepository>()),
               child: SignupPage(),
             ));
     // );
@@ -99,6 +100,224 @@ class _SignupPage extends State<SignupPage> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sign up as',
+                                  style: GoogleFonts.gothicA1(
+                                      fontSize: config.AppConfig(context)
+                                          .appHeight(2),
+                                      color: Colors.grey),
+                                ),
+                                SizedBox(
+                                  height:
+                                      config.AppConfig(context).appHeight(1),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: InkWell(
+                                        onTap: () {
+                                          context
+                                              .read<SignUpCubit>()
+                                              .onRoleChanged(
+                                                  role: AppConstants.FOODI);
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: config.AppColors()
+                                                .textFieldBackgroundColor(1),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(
+                                                config.AppConfig(context)
+                                                    .appWidth(2)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/img/foodi.png',
+                                                        height:
+                                                            config.AppConfig(
+                                                                    context)
+                                                                .appHeight(3),
+                                                        width: config.AppConfig(
+                                                                context)
+                                                            .appHeight(3),
+                                                        fit: BoxFit.fitHeight,
+                                                      ),
+                                                      Text(
+                                                        'mifoodi',
+                                                        style: GoogleFonts.gothicA1(
+                                                            fontSize: config
+                                                                    .AppConfig(
+                                                                        context)
+                                                                .appHeight(2),
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width:
+                                                      config.AppConfig(context)
+                                                          .appWidth(3),
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: state.selectedRole ==
+                                                          AppConstants.FOODI
+                                                      ? Container(
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor),
+                                                          child: Icon(
+                                                            Icons.done,
+                                                            color: Colors.white,
+                                                            size: config
+                                                                    .AppConfig(
+                                                                        context)
+                                                                .appWidth(5),
+                                                          ),
+                                                        )
+                                                      : Icon(
+                                                          Icons.circle,
+                                                          color: Colors.white,
+                                                          size:
+                                                              config.AppConfig(
+                                                                      context)
+                                                                  .appWidth(5),
+                                                        ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          config.AppConfig(context).appWidth(2),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: InkWell(
+                                        onTap: () {
+                                          context
+                                              .read<SignUpCubit>()
+                                              .onRoleChanged(
+                                                  role: AppConstants.COOK);
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: config.AppColors()
+                                                .textFieldBackgroundColor(1),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(
+                                                config.AppConfig(context)
+                                                    .appWidth(2)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/img/cook.png',
+                                                        height:
+                                                            config.AppConfig(
+                                                                    context)
+                                                                .appHeight(3),
+                                                        width: config.AppConfig(
+                                                                context)
+                                                            .appHeight(3),
+                                                        fit: BoxFit.fitHeight,
+                                                      ),
+                                                      Text(
+                                                        'micook',
+                                                        style: GoogleFonts.gothicA1(
+                                                            fontSize: config
+                                                                    .AppConfig(
+                                                                        context)
+                                                                .appHeight(2),
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width:
+                                                      config.AppConfig(context)
+                                                          .appWidth(3),
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: state.selectedRole==AppConstants.COOK?Container(
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Theme.of(context)
+                                                            .primaryColor),
+                                                    child: Icon(
+                                                      Icons.done,
+                                                      color: Colors.white,
+                                                      size: config.AppConfig(
+                                                              context)
+                                                          .appWidth(5),
+                                                    ),
+                                                  ):
+                                                   Icon(
+                                                  Icons.circle,
+                                                  color: Colors.white,
+                                                  size:
+                                                  config.AppConfig(
+                                                      context)
+                                                      .appWidth(5),
+                                                )
+                                                  ,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
                             _FirstName(
                               loginForm: this,
                             ),
@@ -534,6 +753,8 @@ class _LoginButton extends StatelessWidget {
                     minWidth: config.AppConfig(context).appWidth(100),
                     height: 50.0,
                     onPressed: () {
+                      navigatorKey.currentState!.pushNamed('/OTPPage');
+
                       if (state.status!.isValidated) {
                         // context.read<SignUpCubit>().doLogin();
                       }
