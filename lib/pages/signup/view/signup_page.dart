@@ -181,7 +181,7 @@ class _EmailState extends State<_Email> {
             style: TextStyle(color: Colors.black),
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
-            maxLength: 15,
+            maxLength: 55,
             onChanged: (text) {
               context.read<SignUpCubit>().onEmailChanged(value: text);
             },
@@ -197,7 +197,7 @@ class _EmailState extends State<_Email> {
                     )
                   : SizedBox(),
               hintStyle: GoogleFonts.gothicA1(
-                  color: Colors.grey,
+                  color: Theme.of(context).hintColor,
                   fontSize: config.AppConfig(context).appWidth(4)),
               // labelText: 'Mobile Number',
               hintText: 'Email Address',
@@ -206,32 +206,32 @@ class _EmailState extends State<_Email> {
               fillColor: config.AppColors().textFieldBackgroundColor(1),
               filled: true,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               border: InputBorder.none,
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
                   color: Colors.white,
                 ),
@@ -282,7 +282,7 @@ class _FirstNameState extends State<_FirstName> {
             // )
             //     : SizedBox(),
             hintStyle: GoogleFonts.gothicA1(
-                color: Colors.grey,
+                color: Theme.of(context).hintColor,
                 fontSize: config.AppConfig(context).appWidth(4)),
             // labelText: 'Mobile Number',
             hintText: 'First Name',
@@ -291,32 +291,32 @@ class _FirstNameState extends State<_FirstName> {
             fillColor: config.AppColors().textFieldBackgroundColor(1),
             filled: true,
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             border: InputBorder.none,
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
@@ -366,7 +366,7 @@ class _LastNameState extends State<_LastName> {
             // )
             //     : SizedBox(),
             hintStyle: GoogleFonts.gothicA1(
-                color: Colors.grey,
+                color: Theme.of(context).hintColor,
                 fontSize: config.AppConfig(context).appWidth(4)),
             // labelText: 'Mobile Number',
             hintText: 'Last Name',
@@ -375,32 +375,32 @@ class _LastNameState extends State<_LastName> {
             fillColor: config.AppColors().textFieldBackgroundColor(1),
             filled: true,
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             border: InputBorder.none,
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
@@ -449,7 +449,7 @@ class _PhoneNoState extends State<_PhoneNo> {
             // )
             //     : SizedBox(),
             hintStyle: GoogleFonts.gothicA1(
-                color: Colors.grey,
+                color: Theme.of(context).hintColor,
                 fontSize: config.AppConfig(context).appWidth(4)),
             // labelText: 'Mobile Number',
             hintText: 'Phone',
@@ -458,32 +458,32 @@ class _PhoneNoState extends State<_PhoneNo> {
             fillColor: config.AppColors().textFieldBackgroundColor(1),
             filled: true,
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             border: InputBorder.none,
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide(
                 color: Colors.white,
               ),
@@ -520,19 +520,16 @@ class _LoginButton extends StatelessWidget {
                               Theme.of(context).primaryColor,
                             ]
                           : [
-                              Colors.grey,
-                              Colors.grey,
-                              // Theme.of(context).primaryColor,
-                              // Theme.of(context).primaryColor,
+                              Theme.of(context).primaryColorLight,
+                              Theme.of(context).primaryColorLight,
                             ],
                     )),
                 child: MaterialButton(
-                    child: const Text(
+                    child: Text(
                       'SIGN IN',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
+                      style: GoogleFonts.gothicA1(
+                          fontSize: config.AppConfig(context).appWidth(3.5),
+                          color: Colors.white),
                     ),
                     minWidth: config.AppConfig(context).appWidth(100),
                     height: 50.0,
