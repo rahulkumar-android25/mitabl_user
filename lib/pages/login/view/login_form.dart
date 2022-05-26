@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
+import 'package:mitabl_user/repos/authentication_repository.dart';
 
 class LoginForm extends StatefulWidget {
   // final RouteArguements? routeArguements;
@@ -115,13 +116,17 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
                           SizedBox(
                             height: config.AppConfig(context).appHeight(0.5),
                           ),
-                          Text(
-                            ' Forgot password?',
-                            style: GoogleFonts.gothicA1(
-                                fontSize:
-                                    config.AppConfig(context).appHeight(1.5),
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold),
+                          InkWell(
+                            onTap: () => navigatorKey.currentState!
+                                .pushNamed('/ForgotPage'),
+                            child: Text(
+                              ' Forgot password?',
+                              style: GoogleFonts.gothicA1(
+                                  fontSize:
+                                      config.AppConfig(context).appHeight(1.5),
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                           SizedBox(
                             height: config.AppConfig(context).appHeight(3),
