@@ -40,14 +40,11 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      body: SizedBox(
-          height: config.AppConfig(context).appHeight(100),
-          width: config.AppConfig(context).appWidth(100),
-          child: BlocConsumer<cubit.LoginCubit, cubit.LoginState>(
-              builder: (context, state) {
-                return const LoginForm();
-              },
-              listener: (context, state) {})),
+      body: BlocConsumer<cubit.LoginCubit, cubit.LoginState>(
+          builder: (context, state) {
+            return const LoginForm();
+          },
+          listener: (context, state) {}),
     );
   }
 }

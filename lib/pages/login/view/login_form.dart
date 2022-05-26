@@ -55,105 +55,89 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
     timeDilation = 0.4;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return BlocConsumer<LoginCubit, LoginState>(builder: (context, state) {
-      return SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.center,
-          color: Colors.white,
-          height: config.AppConfig(context).appHeight(100),
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: config.AppConfig(context).appWidth(5),
-                        right: config.AppConfig(context).appWidth(5)),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: config.AppConfig(context).appWidth(90),
-                      child: Padding(
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: config.AppConfig(context).appHeight(15),
-                            ),
-                            Column(
-                              children: [
-                                Image.asset(
-                                  'assets/img/logo.png',
-                                  fit: BoxFit.contain,
-                                  height:
-                                      config.AppConfig(context).appHeight(15),
-                                  width: config.AppConfig(context).appWidth(70),
-                                ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(2),
-                                ),
-                                Text(
-                                  'Welcome Back!',
-                                  style: GoogleFonts.gothicA1(
-                                      color: Theme.of(context).primaryColorDark,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: config.AppConfig(context)
-                                          .appWidth(7)),
-                                ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(1),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: config.AppConfig(context).appHeight(10),
-                            ),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _MobilePhone(
-                                    loginForm: this,
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        config.AppConfig(context).appHeight(2),
-                                  ),
-                                  _Password(
-                                    loginForm: this,
-                                  ),
-                                  SizedBox(
-                                    height: config.AppConfig(context)
-                                        .appHeight(0.5),
-                                  ),
-                                  Text(
-                                    ' Forgot password?',
-                                    style: GoogleFonts.gothicA1(
-                                        fontSize: config.AppConfig(context)
-                                            .appHeight(1.5),
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        config.AppConfig(context).appHeight(3),
-                                  ),
-                                  _LoginButton(
-                                    loginForm: this,
-                                  ),
-                                  SizedBox(
-                                    height: config.AppConfig(context)
-                                        .appHeight(4.5),
-                                  ),
-                                ]),
-                          ],
+      return Container(
+        alignment: Alignment.center,
+        color: Colors.white,
+        height: config.AppConfig(context).appHeight(100),
+        width: config.AppConfig(context).appWidth(100),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: config.AppConfig(context).appHeight(2),
+                left: config.AppConfig(context).appWidth(5),
+                right: config.AppConfig(context).appWidth(5)),
+            child: Container(
+              alignment: Alignment.center,
+              width: config.AppConfig(context).appWidth(90),
+              child: Padding(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Image.asset(
+                          'assets/img/logo.png',
+                          fit: BoxFit.contain,
+                          height: config.AppConfig(context).appHeight(15),
+                          width: config.AppConfig(context).appWidth(70),
                         ),
-                      ),
+                        SizedBox(
+                          height: config.AppConfig(context).appHeight(2),
+                        ),
+                        Text(
+                          'Welcome Back!',
+                          style: GoogleFonts.gothicA1(
+                              color: Theme.of(context).primaryColorDark,
+                              fontWeight: FontWeight.w600,
+                              fontSize: config.AppConfig(context).appWidth(7)),
+                        ),
+                        SizedBox(
+                          height: config.AppConfig(context).appHeight(1),
+                        ),
+                      ],
                     ),
-                  ),
-                )
-              ]),
+                    SizedBox(
+                      height: config.AppConfig(context).appHeight(8),
+                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _MobilePhone(
+                            loginForm: this,
+                          ),
+                          SizedBox(
+                            height: config.AppConfig(context).appHeight(2),
+                          ),
+                          _Password(
+                            loginForm: this,
+                          ),
+                          SizedBox(
+                            height: config.AppConfig(context).appHeight(0.5),
+                          ),
+                          Text(
+                            ' Forgot password?',
+                            style: GoogleFonts.gothicA1(
+                                fontSize:
+                                    config.AppConfig(context).appHeight(1.5),
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: config.AppConfig(context).appHeight(3),
+                          ),
+                          _LoginButton(
+                            loginForm: this,
+                          ),
+                          SizedBox(
+                            height: config.AppConfig(context).appHeight(4.5),
+                          ),
+                        ]),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       );
     }, listener: (context, state) async {
@@ -288,7 +272,7 @@ class _PasswordState extends State<_Password> {
                 },
                 color: Colors.white,
                 icon: Icon(
-                  !state.showPassword ? Icons.visibility : Icons.visibility_off,
+                  !state.showPassword ? Icons.visibility_off : Icons.visibility,
                   color: Theme.of(context).primaryColorLight,
                 ),
               ),

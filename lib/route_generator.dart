@@ -21,7 +21,7 @@ class RouteGenerator {
         return LoginPage.route();
 
       case '/SignUpPage':
-        return SignUpPage.route();
+        return SignupPage.route();
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
