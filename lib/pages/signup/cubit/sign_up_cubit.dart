@@ -15,23 +15,18 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   final AuthenticationRepository? authenticationRepository;
 
-  onSignUp()async{
-
-    Map<String,dynamic> map={};
-    map['first_name']=state.nameFirst!.value;
-    map['last_name']=state.nameFirst!.value;
-    map['email']=state.nameFirst!.value;
+  onSignUp() async {
+    Map<String, dynamic> map = {};
+    map['first_name'] = state.nameFirst!.value;
+    map['last_name'] = state.nameFirst!.value;
+    map['email'] = state.nameFirst!.value;
     // map['password']=state.nameFirst!.value;
-    map['role_id']=state.nameFirst!.value;
-    map['phone']=state.nameFirst!.value;
+    map['role_id'] = state.nameFirst!.value;
+    map['phone'] = state.nameFirst!.value;
     // map['address']=state.nameFirst!.value;
 
-
     await authenticationRepository!.signUp(data: map);
-
-
   }
-
 
   onFirstNameChanged({String? value}) {
     var name = Name.dirty(value!);

@@ -12,8 +12,6 @@ import 'package:mitabl_user/repos/user_repository.dart';
 
 import '../../../model/email.dart';
 
-
-
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -75,7 +73,7 @@ class LoginCubit extends Cubit<LoginState> {
           emit(state.copyWith(apiStatus: FormzStatus.submissionSuccess));
         });
       } else {
-        String message = 'Something went wrong...';
+        String message = jsonDecode(response.body)['message'];
         if (response.statusCode == 401) {
           message = 'Please check your email and password';
         }
@@ -83,6 +81,9 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(
             apiStatus: FormzStatus.submissionFailure,
             serverMessage: '${message}'));
+
+        emit(state.copyWith(
+            apiStatus: FormzStatus.pure, serverMessage: '${message}'));
       }
     } catch (e) {
       print('exceptionLogin $e');

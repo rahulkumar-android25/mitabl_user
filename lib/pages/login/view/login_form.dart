@@ -147,7 +147,7 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
       );
     }, listener: (context, state) async {
       print('status form ${state.status}');
-      if (state.status.isSubmissionFailure) {
+      if (state.apiStatus.isSubmissionFailure) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
       }
@@ -338,8 +338,10 @@ class _LoginButton extends StatelessWidget {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
+        return state.apiStatus.isSubmissionInProgress
+            ? Container(
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator())
             : Container(
                 height: 45,
                 decoration: BoxDecoration(

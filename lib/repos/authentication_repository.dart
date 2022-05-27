@@ -59,12 +59,35 @@ class AuthenticationRepository {
     // }
   }
 
+  Future<dynamic?> logOutApi() async {
+    // try {
+    final url =
+        '${GlobalConfiguration().getValue<String>('api_base_url')}logout';
+
+    print(url);
+
+    final client = http.Client();
+
+    final response = await client.post(
+      Uri.parse(url),
+      // headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      this.logOut();
+      return response;
+    }
+    return response;
+  }
+
   void logOut() {
     _userRepository.clearuserData();
     //print('app:-unauthenticated_logOut');
     controller.add(AuthenticationStatus.unauthenticated);
   }
-
 
   Future<dynamic?> signUp({
     required Map<String, dynamic> data,
@@ -92,7 +115,6 @@ class AuthenticationRepository {
     //   print('exception $e');
     // }
   }
-
 
   void dispose() => controller.close();
 }
