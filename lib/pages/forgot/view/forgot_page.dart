@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
+import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/pages/forgot/cubit/forgot_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
@@ -16,7 +17,8 @@ class ForgotPage extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
-              create: (context) => ForgotCubit(),
+              create: (context) =>
+                  ForgotCubit(context.read<AuthenticationRepository>()),
               child: ForgotPage(),
             ));
     // );
@@ -158,10 +160,13 @@ class _ForgotPage extends State<ForgotPage> with TickerProviderStateMixin {
         );
       }, listener: (context, state) async {
         print('status form ${state.status}');
-        // if (state.status!.isSubmissionFailure) {
-        //   ScaffoldMessenger.of(context)
-        //       .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
-        // }
+        if (state.status!.isSubmissionFailure) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
+        } else if (state.status!.isSubmissionSuccess) {
+          Helper.showToast('${state.serverMessage}');
+          navigatorKey.currentState!.pop();
+        }
       }),
     );
   }
@@ -264,7 +269,10 @@ class _LoginButton extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return state.status!.isSubmissionInProgress
-            ? const CircularProgressIndicator()
+            ? Container(
+                child: const CircularProgressIndicator(),
+                alignment: Alignment.center,
+              )
             : Container(
                 height: 45,
                 decoration: BoxDecoration(
@@ -293,7 +301,7 @@ class _LoginButton extends StatelessWidget {
                     height: 50.0,
                     onPressed: () {
                       if (state.status!.isValidated) {
-                        // context.read<ForgotCubit>().doLogin();
+                        context.read<ForgotCubit>().forgot();
                       }
                     }),
               );

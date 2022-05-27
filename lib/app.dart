@@ -85,7 +85,6 @@ class _AppViewState extends State<AppView> {
                 case AuthenticationStatus.authenticated:
                   // _navigator!.pushNamedAndRemoveUntil(
                   //     '/DashboardPage', (route) => false);
-
                   _navigator!
                       .pushNamedAndRemoveUntil('/HomePage', (route) => false);
                   break;
