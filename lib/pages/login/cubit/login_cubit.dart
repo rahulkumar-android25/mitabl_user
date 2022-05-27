@@ -68,9 +68,12 @@ class LoginCubit extends Cubit<LoginState> {
           //   prefs.setBool(AppConstants.USER_REMEMBER_ME, false);
           // }
 
+          emit(state.copyWith(
+              apiStatus: FormzStatus.submissionSuccess,
+              serverMessage: 'Login Successfully...'));
+
           _authenticationRepository.controller
               .add(AuthenticationStatus.authenticated);
-          emit(state.copyWith(apiStatus: FormzStatus.submissionSuccess));
         });
       } else {
         String message = jsonDecode(response.body)['message'];

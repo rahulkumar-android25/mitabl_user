@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
+import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/pages/home/cubit/home_cubit.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
@@ -82,10 +83,12 @@ class _HomePage extends State<HomePage> with TickerProviderStateMixin {
         );
       }, listener: (context, state) async {
         print('status form ${state.status}');
-        // if (state.status!.isSubmissionFailure) {
-        //   ScaffoldMessenger.of(context)
-        //       .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
-        // }
+        if (state.status!.isSubmissionFailure) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
+        }else if (state.status!.isSubmissionSuccess) {
+          Helper.showToast('${state.serverMessage}');
+        }
       }),
     );
   }
@@ -125,9 +128,7 @@ class _LoginButton extends StatelessWidget {
                     minWidth: config.AppConfig(context).appWidth(100),
                     height: 50.0,
                     onPressed: () {
-                      if (state.status!.isValidated) {
-                        // context.read<HomeCubit>().doLogin();
-                      }
+                      context.read<HomeCubit>().doLogout();
                     }),
               );
       },

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
+import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
@@ -150,6 +151,8 @@ class _LoginForm extends State<LoginForm> with TickerProviderStateMixin {
       if (state.apiStatus.isSubmissionFailure) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
+      } else if (state.apiStatus.isSubmissionSuccess) {
+        Helper.showToast('${state.serverMessage}');
       }
     });
   }

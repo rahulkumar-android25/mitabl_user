@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
+import 'package:mitabl_user/model/user_model.dart';
 import 'package:mitabl_user/repos/user_repository.dart';
 
 enum AuthenticationStatus {
@@ -59,10 +60,33 @@ class AuthenticationRepository {
     // }
   }
 
-  Future<dynamic?> logOutApi() async {
+  Future<dynamic?> forgot({
+    required Map<String, dynamic> data,
+  }) async {
     // try {
     final url =
-        '${GlobalConfiguration().getValue<String>('api_base_url')}logout';
+        '${GlobalConfiguration().getValue<String>('api_base_url')}password/reset';
+
+    print(url);
+
+    final client = http.Client();
+
+    final response = await client.post(Uri.parse(url),
+        // headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(data));
+
+    if (response.statusCode == 200) {
+      return response;
+    }
+    return response;
+  }
+
+  Future<dynamic?> logOutApi({required UserModel userModel}) async {
+    final url =
+        '${GlobalConfiguration().getValue<String>('api_base_url')}v1/logout';
 
     print(url);
 
@@ -70,14 +94,13 @@ class AuthenticationRepository {
 
     final response = await client.post(
       Uri.parse(url),
-      // headers: {HttpHeaders.contentTypeHeader: 'application/json'},
       headers: {
-        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Authorization': 'Bearer ${userModel.data!.accessToken}'
       },
     );
 
     if (response.statusCode == 200) {
-      this.logOut();
       return response;
     }
     return response;
