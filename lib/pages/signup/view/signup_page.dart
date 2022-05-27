@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
@@ -19,7 +20,8 @@ class SignupPage extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
-              create: (context) => SignUpCubit(context.read<AuthenticationRepository>()),
+              create: (context) =>
+                  SignUpCubit(context.read<AuthenticationRepository>()),
               child: SignupPage(),
             ));
     // );
@@ -282,28 +284,32 @@ class _SignupPage extends State<SignupPage> with TickerProviderStateMixin {
                                                 ),
                                                 Expanded(
                                                   flex: 1,
-                                                  child: state.selectedRole==AppConstants.COOK?Container(
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Theme.of(context)
-                                                            .primaryColor),
-                                                    child: Icon(
-                                                      Icons.done,
-                                                      color: Colors.white,
-                                                      size: config.AppConfig(
-                                                              context)
-                                                          .appWidth(5),
-                                                    ),
-                                                  ):
-                                                   Icon(
-                                                  Icons.circle,
-                                                  color: Colors.white,
-                                                  size:
-                                                  config.AppConfig(
-                                                      context)
-                                                      .appWidth(5),
-                                                )
-                                                  ,
+                                                  child: state.selectedRole ==
+                                                          AppConstants.COOK
+                                                      ? Container(
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor),
+                                                          child: Icon(
+                                                            Icons.done,
+                                                            color: Colors.white,
+                                                            size: config
+                                                                    .AppConfig(
+                                                                        context)
+                                                                .appWidth(5),
+                                                          ),
+                                                        )
+                                                      : Icon(
+                                                          Icons.circle,
+                                                          color: Colors.white,
+                                                          size:
+                                                              config.AppConfig(
+                                                                      context)
+                                                                  .appWidth(5),
+                                                        ),
                                                 )
                                               ],
                                             ),
@@ -339,6 +345,244 @@ class _SignupPage extends State<SignupPage> with TickerProviderStateMixin {
                             _PhoneNo(
                               loginForm: this,
                             ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.zero,
+                              child: TextFormField(
+                                // controller: widget.loginForm!.mobileNoTextEditor,
+                                style: TextStyle(color: Colors.black),
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.name,
+                                maxLength: 15,
+                                onChanged: (text) {
+                                  context
+                                      .read<SignUpCubit>()
+                                      .onAddressChanged(value: text);
+                                },
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  errorText: state.address!.invalid
+                                      ? 'Please enter a valid address'
+                                      : null,
+
+                                  hintStyle: GoogleFonts.gothicA1(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: config.AppConfig(context)
+                                          .appWidth(4)),
+                                  // labelText: 'Mobile Number',
+                                  hintText: 'Address',
+                                  contentPadding: EdgeInsets.all(
+                                      config.AppConfig(context).appWidth(2)),
+                                  fillColor: config.AppColors()
+                                      .textFieldBackgroundColor(1),
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+
+                            Container(
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.black),
+                                obscureText: state.showPassword,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.visiblePassword,
+                                onChanged: (text) {
+                                  context
+                                      .read<SignUpCubit>()
+                                      .onPasswordChanged(value: text);
+                                  context
+                                      .read<SignUpCubit>()
+                                      .onConfirmPasswordChanged(context
+                                          .read<SignUpCubit>()
+                                          .state
+                                          .confirmPassword
+                                          .value['confirmPassword']);
+                                },
+                                maxLength: 50,
+                                decoration: InputDecoration(
+                                  errorText: state.password.invalid
+                                      ? 'Please enter a valid password'
+                                      : null,
+                                  counterText: '',
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .showPassword();
+                                    },
+                                    color: Colors.white,
+                                    icon: Icon(
+                                      !state.showPassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                    ),
+                                  ),
+                                  hintStyle: GoogleFonts.gothicA1(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: config.AppConfig(context)
+                                          .appWidth(4)),
+                                  hintText: 'Password',
+                                  contentPadding: EdgeInsets.all(
+                                      config.AppConfig(context).appWidth(3)),
+                                  fillColor: config.AppColors()
+                                      .textFieldBackgroundColor(1),
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+
+                            Container(
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.black),
+                                obscureText: state.showConfirmPassword,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.visiblePassword,
+                                onChanged: (text) {
+                                  context
+                                      .read<SignUpCubit>()
+                                      .onConfirmPasswordChanged(text);
+                                },
+                                maxLength: 50,
+                                decoration: InputDecoration(
+                                  errorText: state.confirmPassword.invalid
+                                      ? 'Please enter a valid password'
+                                      : null,
+                                  counterText: '',
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .showConfirmPassword();
+                                    },
+                                    color: Colors.white,
+                                    icon: Icon(
+                                      !state.showConfirmPassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                    ),
+                                  ),
+                                  hintStyle: GoogleFonts.gothicA1(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: config.AppConfig(context)
+                                          .appWidth(4)),
+                                  hintText: 'Confirm Password',
+                                  contentPadding: EdgeInsets.all(
+                                      config.AppConfig(context).appWidth(3)),
+                                  fillColor: config.AppColors()
+                                      .textFieldBackgroundColor(1),
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
                             SizedBox(
                               height: config.AppConfig(context).appHeight(2),
                             ),
@@ -744,19 +988,27 @@ class _LoginButton extends StatelessWidget {
                             ],
                     )),
                 child: MaterialButton(
-                    child: Text(
-                      'SIGN IN',
-                      style: GoogleFonts.gothicA1(
-                          fontSize: config.AppConfig(context).appWidth(3.5),
-                          color: Colors.white),
-                    ),
+                    child: state.statusApi!.isSubmissionInProgress
+                        ? const Center(
+                            child: CupertinoActivityIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(
+                            'SIGN IN',
+                            style: GoogleFonts.gothicA1(
+                                fontSize:
+                                    config.AppConfig(context).appWidth(3.5),
+                                color: Colors.white),
+                          ),
                     minWidth: config.AppConfig(context).appWidth(100),
                     height: 50.0,
                     onPressed: () {
-                      navigatorKey.currentState!.pushNamed('/OTPPage');
-
+                      //
+                      // navigatorKey.currentState!.popAndPushNamed('/OTPPage');
+                      // return;
                       if (state.status!.isValidated) {
-                        // context.read<SignUpCubit>().doLogin();
+                        context.read<SignUpCubit>().onSignUp();
                       }
                     }),
               );

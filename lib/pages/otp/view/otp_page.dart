@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -6,20 +7,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
+import 'package:mitabl_user/helper/route_arguement.dart';
 import 'package:mitabl_user/pages/otp/cubit/otp_cubit.dart';
 
 import 'package:mitabl_user/repos/authentication_repository.dart';
 import 'package:pinput/pinput.dart';
+import 'package:formz/formz.dart';
 
 class OTPPage extends StatefulWidget {
   const OTPPage({
     Key? key,
   }) : super(key: key);
 
-  static Route route() {
+  static Route route({RouteArguments? routeArguments}) {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
-              create: (context) => OtpCubit(),
+              create: (context) => OtpCubit(
+                  context.read<AuthenticationRepository>(), routeArguments),
               child: OTPPage(),
             ));
     // );
@@ -41,9 +45,6 @@ class _OTPPage extends State<OTPPage> {
     // setUpFields();
     super.initState();
   }
-
-  TextEditingController? mobileNoTextEditor = TextEditingController();
-  TextEditingController? passwordTextEditor = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -124,12 +125,10 @@ class _OTPPage extends State<OTPPage> {
                         length: 4,
                         pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                         showCursor: true,
-                        onChanged: (value){
-
+                        onChanged: (value) {
+                          context.read<OtpCubit>().onOtpChanged(value: value);
                         },
-                        onCompleted: (pin) {
-
-                        },
+                        onCompleted: (pin) {},
                       ),
                       SizedBox(
                         height: config.AppConfig(context).appHeight(4),
@@ -157,41 +156,45 @@ class _SubmitButton extends StatelessWidget {
     return BlocConsumer<OtpCubit, OtpState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return /*state.status!.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : */
-            Container(
+        return Container(
           height: 45,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
-                colors: /* state.status!.isValidated
-                          ? [
-                              Theme.of(context).primaryColor,
-                              Theme.of(context).primaryColor,
-                            ]
-                          : */
-                    [
-                  Theme.of(context).primaryColorLight,
-                  Theme.of(context).primaryColorLight,
-                ],
+                colors: state.status!.isValidated
+                    ? [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).primaryColor,
+                      ]
+                    : [
+                        Colors.grey,
+                        Colors.grey,
+                        // Theme.of(context).primaryColorLight,
+                        // Theme.of(context).primaryColorLight,
+                      ],
               )),
-          child: MaterialButton(
-              child: Text(
-                'SUBMIT',
-                style: GoogleFonts.gothicA1(
-                    fontSize: config.AppConfig(context).appWidth(3.5),
-                    color: Colors.white),
-              ),
-              minWidth: config.AppConfig(context).appWidth(100),
-              height: 50.0,
-              onPressed: () {
-                // if (state.status!.isValidated) {
-                // context.read<SignUpCubit>().doLogin();
-                // }
-              }),
+          child: state.statusAPI!.isSubmissionInProgress
+              ? const Center(
+                  child: CupertinoActivityIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : MaterialButton(
+                  child: Text(
+                    'SUBMIT',
+                    style: GoogleFonts.gothicA1(
+                        fontSize: config.AppConfig(context).appWidth(3.5),
+                        color: Colors.white),
+                  ),
+                  minWidth: config.AppConfig(context).appWidth(100),
+                  height: 50.0,
+                  onPressed: () {
+                    if (state.status!.isValidated) {
+                    context.read<OtpCubit>().onSubmitted();
+                    }
+                  }),
         );
       },
     );

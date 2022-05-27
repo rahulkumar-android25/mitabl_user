@@ -92,28 +92,61 @@ class AuthenticationRepository {
   Future<dynamic?> signUp({
     required Map<String, dynamic> data,
   }) async {
-    // try {
-    final url =
-        '${GlobalConfiguration().getValue<String>('api_base_url')}register';
+    try {
+      final url =
+          '${GlobalConfiguration().getValue<String>('api_base_url')}register';
 
-    print(url);
+      print(url);
+      print(data);
 
-    final client = http.Client();
+      final client = http.Client();
 
-    final response = await client.post(Uri.parse(url),
-        // headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(data));
+      final response = await client.post(Uri.parse(url),
+          // headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+          headers: {
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'multipart/form-data',
+            // 'accept': 'application/json',
+            // 'X-CSRF-TOKEN':''
+          },
+          body: json.encode(data));
 
-    if (response.statusCode == 200) {
+      print('response ${response.body}');
+      if (response.statusCode == 200) {
+        return response;
+      }
       return response;
+    } catch (e) {
+      print('exception $e');
     }
-    return response;
-    // } catch (e) {
-    //   print('exception $e');
-    // }
+  }
+
+  Future<dynamic?> otpVerify({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final url =
+          '${GlobalConfiguration().getValue<String>('api_base_url')}verifyOtp';
+
+      print(url);
+      print(data);
+
+      final client = http.Client();
+
+      final response = await client.post(Uri.parse(url),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(data));
+
+      print('response ${response.body}');
+      if (response.statusCode == 200) {
+        return response;
+      }
+      return response;
+    } catch (e) {
+      print('exception $e');
+    }
   }
 
   void dispose() => controller.close();

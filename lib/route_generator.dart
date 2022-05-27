@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mitabl_user/helper/route_arguement.dart';
 import 'package:mitabl_user/pages/forgot/view/forgot_page.dart';
 import 'package:mitabl_user/pages/home/view/home_page.dart';
 import 'package:mitabl_user/pages/landing_page/landing_page.dart';
 import 'package:mitabl_user/pages/login/view/login_page.dart';
 import 'package:mitabl_user/pages/otp/view/otp_page.dart';
+import 'package:mitabl_user/pages/profile/cook_profile/cook_profile_page.dart';
 import 'package:mitabl_user/pages/signup/view/signup_page.dart';
 import 'package:mitabl_user/splash.dart';
 
@@ -30,10 +32,13 @@ class RouteGenerator {
         return ForgotPage.route();
 
       case '/OTPPage':
-        return OTPPage.route();
+        return OTPPage.route(routeArguments: args as RouteArguments);
 
       case '/HomePage':
         return HomePage.route();
+
+      case '/CookProfile':
+        return CookProfilePage.route();
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
