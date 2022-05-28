@@ -42,6 +42,8 @@ class SignUpCubit extends Cubit<SignUpState> {
             SignUpResponse.fromJson(jsonDecode(response.body));
 
         emit(state.copyWith(statusApi: FormzStatus.submissionSuccess));
+
+        Helper.showToast('Success');
         navigatorKey.currentState!.popAndPushNamed('/OTPPage',
             arguments: RouteArguments(
                 id: signUpResponse.data!.id.toString(),

@@ -7,7 +7,7 @@ class UserModel {
   UserModel({this.responseCode, this.isSuccess, this.message, this.data});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    responseCode = json['response_code'];
+    responseCode = json['response_code'] != null ? json['response_code'] : 0;
     isSuccess = json['isSuccess'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -34,7 +34,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
-    tokenType = json['token_type'];
+    tokenType = json['token_type'] != null ? json['token_type'] : '';
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 

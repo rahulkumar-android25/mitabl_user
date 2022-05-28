@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
@@ -86,7 +87,7 @@ class _HomePage extends State<HomePage> with TickerProviderStateMixin {
         if (state.status!.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
-        }else if (state.status!.isSubmissionSuccess) {
+        } else if (state.status!.isSubmissionSuccess) {
           Helper.showToast('${state.serverMessage}');
         }
       }),
@@ -104,33 +105,37 @@ class _LoginButton extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return state.status!.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        Theme.of(context).primaryColor,
-                        Theme.of(context).primaryColor,
-                      ],
-                    )),
-                child: MaterialButton(
-                    child: Text(
+        return Container(
+          height: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: [
+                  Theme.of(context).primaryColor,
+                  Theme.of(context).primaryColor,
+                ],
+              )),
+          child: MaterialButton(
+              child: state.status!.isSubmissionInProgress
+                  ? const Center(
+                      child: CupertinoActivityIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(
                       'Logout',
                       style: GoogleFonts.gothicA1(
                           fontSize: config.AppConfig(context).appWidth(3.5),
                           color: Colors.white),
                     ),
-                    minWidth: config.AppConfig(context).appWidth(100),
-                    height: 50.0,
-                    onPressed: () {
-                      context.read<HomeCubit>().doLogout();
-                    }),
-              );
+              minWidth: config.AppConfig(context).appWidth(100),
+              height: 50.0,
+              onPressed: () {
+                context.read<HomeCubit>().doLogout();
+              }),
+        );
       },
     );
   }

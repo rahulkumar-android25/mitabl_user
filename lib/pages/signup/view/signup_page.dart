@@ -995,7 +995,7 @@ class _LoginButton extends StatelessWidget {
                             ),
                           )
                         : Text(
-                            'SIGN IN',
+                            'NEXT',
                             style: GoogleFonts.gothicA1(
                                 fontSize:
                                     config.AppConfig(context).appWidth(3.5),

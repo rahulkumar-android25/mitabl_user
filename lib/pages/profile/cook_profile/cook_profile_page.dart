@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -9,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
 import 'package:mitabl_user/helper/helper.dart';
+import 'package:mitabl_user/helper/route_arguement.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
@@ -19,11 +22,11 @@ class CookProfilePage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static Route route() {
+  static Route route({RouteArguments? routeArguments}) {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
-              create: (context) =>
-                  CookProfileCubit(context.read<AuthenticationRepository>()),
+              create: (context) => CookProfileCubit(
+                  context.read<AuthenticationRepository>(), routeArguments),
               child: const CookProfilePage(),
             ));
     // );
@@ -36,6 +39,8 @@ class CookProfilePage extends StatefulWidget {
 class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
   _OTPPage();
 
+  PickedFile? _imageFile;
+
   @override
   void initState() {
     super.initState();
@@ -44,49 +49,6 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
   TextEditingController? mobileNoTextEditor = TextEditingController();
   TextEditingController? passwordTextEditor = TextEditingController();
 
-  void _openGallery() async {
-    //var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    try {
-      if (picture!.path != null) {
-        // context
-        //     .bloc<BookAppointmentBloc>()
-        //     .add(ServiceImageChanged(picture.path, index));
-      } else {
-        Helper.showToast('No image selected.');
-      }
-    } catch (e) {
-      Helper.showToast('No image selected.');
-    }
-    //  this.setState(() {
-    /*imageFile = File(picture.path);
-
-    final bytes = Io.File(imageFile.path).readAsBytesSync();
-    String base64Encode(List<int> bytes) => base64.encode(bytes);
-    print("BASE_64" + base64Encode(bytes));*/
-
-//    _con.updateProfilePic(picture.path,currentUser.value);
-    //_con.user.base64Image=base64Encode(bytes) ;
-    /*});*/
-  }
-
-  Future<void> _openCamera() async {
-    var picture = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 50);
-
-    try {
-      if (picture!.path != null) {
-        // BlocProvider.of<BookAppointmentBloc>(context)
-        //     .add(ServiceImageChanged(picture.path, index));
-      } else {
-        Helper.showToast('No image captured.');
-      }
-    } catch (e) {
-      Helper.showToast('No image captured.');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     timeDilation = 0.4;
@@ -94,251 +56,190 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
     return Scaffold(
       body: BlocConsumer<CookProfileCubit, CookProfileState>(
           builder: (context, state) {
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.white,
-              height: config.AppConfig(context).appHeight(100),
-              width: config.AppConfig(context).appWidth(100),
-              child: SingleChildScrollView(
+        return Container(
+          alignment: Alignment.center,
+          color: Colors.white,
+          height: config.AppConfig(context).appHeight(100),
+          width: config.AppConfig(context).appWidth(100),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: config.AppConfig(context).appHeight(2),
+                  left: config.AppConfig(context).appWidth(5),
+                  right: config.AppConfig(context).appWidth(5)),
+              child: Container(
+                alignment: Alignment.center,
+                width: config.AppConfig(context).appWidth(90),
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      top: config.AppConfig(context).appHeight(2),
-                      left: config.AppConfig(context).appWidth(5),
-                      right: config.AppConfig(context).appWidth(5)),
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: config.AppConfig(context).appWidth(90),
-                    child: Padding(
-                      padding: EdgeInsets.zero,
-                      child: Column(
+                  padding: EdgeInsets.zero,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Your account has been created',
-                                style: GoogleFonts.gothicA1(
-                                    color: Theme.of(context).primaryColorDark,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: config.AppConfig(context)
-                                        .appWidth(5.5)),
-                              ),
-                              SizedBox(
-                                height: config.AppConfig(context).appHeight(1),
-                              ),
-                              Text(
-                                'Please enter mikitchn details to continue',
-                                style: GoogleFonts.gothicA1(
-                                    color: Theme.of(context).primaryColorDark,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize:
-                                        config.AppConfig(context).appWidth(4)),
-                              ),
-                            ],
+                          Text(
+                            'Your account has been created',
+                            style: GoogleFonts.gothicA1(
+                                color: Theme.of(context).primaryColorDark,
+                                fontWeight: FontWeight.w600,
+                                fontSize:
+                                    config.AppConfig(context).appWidth(5.5)),
                           ),
                           SizedBox(
-                            height: config.AppConfig(context).appHeight(2),
+                            height: config.AppConfig(context).appHeight(1),
                           ),
-                          InkWell(
-                            onTap: () {
-                              showDialog<bool>(
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                            'Add image',
-                                            style: GoogleFonts.gothicA1(
-                                                color: Colors.black,
-                                                fontSize:
-                                                    config.AppConfig(context)
-                                                        .appWidth(5)),
-                                          ),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              MaterialButton(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                child: const Text(
-                                                  "Gallery",
-                                                  style: TextStyle(
-                                                      color: Colors.white70,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                onPressed: () {
-                                                  navigatorKey.currentState!
-                                                      .pop(false);
-                                                },
-                                              ),
-                                              MaterialButton(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                child: const Text(
-                                                  "Camera",
-                                                  style: TextStyle(
-                                                      color: Colors.white70,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                onPressed: () {
-                                                  navigatorKey.currentState!
-                                                      .pop(true);
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                      context: context)
-                                  .then((value) {
-                                if (value != null) {
-                                  if (value) {
-                                    //Get from camera
-                                    _openCamera();
-                                  } else {
-                                    //Get from gallery
-                                    _openGallery();
-                                  }
-                                }
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: config.AppColors()
-                                      .textFieldBackgroundColor(1),
-                                  borderRadius: BorderRadius.circular(
-                                      config.AppConfig(context).appWidth(5))),
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.photo_outlined,
-                                size: config.AppConfig(context).appWidth(30),
-                                color: Colors.grey,
-                              ),
+                          Text(
+                            'Please enter mikitchn details to continue',
+                            style: GoogleFonts.gothicA1(
+                                color: Theme.of(context).primaryColorDark,
+                                fontWeight: FontWeight.w600,
+                                fontSize:
+                                    config.AppConfig(context).appWidth(4)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: config.AppConfig(context).appHeight(2),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color:
+                                config.AppColors().textFieldBackgroundColor(1),
+                            borderRadius: BorderRadius.circular(
+                                config.AppConfig(context).appWidth(5))),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.photo_outlined,
+                          size: config.AppConfig(context).appWidth(30),
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(
+                        height: config.AppConfig(context).appHeight(2),
+                      ),
+                      _UploadButton(
+                        loginForm: this,
+                      ),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
                             ),
-                          ),
-                          SizedBox(
-                            height: config.AppConfig(context).appHeight(2),
-                          ),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(2),
-                                ),
-                                _KitchenName(
-                                  loginForm: this,
-                                ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(2),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.zero,
-                                  child: TextFormField(
-                                    // controller: widget.loginForm!.mobileNoTextEditor,
-                                    style: TextStyle(color: Colors.black),
-                                    textInputAction: TextInputAction.next,
-                                    keyboardType: TextInputType.name,
-                                    maxLength: 15,
-                                    onChanged: (text) {},
-                                    decoration: InputDecoration(
-                                      counterText: '',
-                                      // errorText: state.address!.invalid
-                                      //     ? 'Please enter a valid address'
-                                      //     : null,
+                            _KitchenName(
+                              loginForm: this,
+                            ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.zero,
+                              child: TextFormField(
+                                // controller: widget.loginForm!.mobileNoTextEditor,
+                                style: TextStyle(color: Colors.black),
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.name,
+                                maxLength: 55,
+                                onChanged: (text) {
+                                  context
+                                      .read<CookProfileCubit>()
+                                      .onAddressChanged(value: text);
+                                },
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  errorText: state.address!.invalid
+                                      ? 'Please enter a valid address'
+                                      : null,
 
-                                      hintStyle: GoogleFonts.gothicA1(
-                                          color: Theme.of(context).hintColor,
-                                          fontSize: config.AppConfig(context)
-                                              .appWidth(4)),
-                                      // labelText: 'Mobile Number',
-                                      hintText: 'Address',
-                                      contentPadding: EdgeInsets.all(
-                                          config.AppConfig(context)
-                                              .appWidth(2)),
-                                      fillColor: config.AppColors()
-                                          .textFieldBackgroundColor(1),
-                                      filled: true,
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: BorderSide(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      border: InputBorder.none,
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: BorderSide(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: BorderSide(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: BorderSide(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        borderSide: BorderSide(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                  hintStyle: GoogleFonts.gothicA1(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: config.AppConfig(context)
+                                          .appWidth(4)),
+                                  // labelText: 'Mobile Number',
+                                  hintText: 'Address',
+                                  contentPadding: EdgeInsets.all(
+                                      config.AppConfig(context).appWidth(2)),
+                                  fillColor: config.AppColors()
+                                      .textFieldBackgroundColor(1),
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(2),
-                                ),
-                                _PhoneNo(
-                                  loginForm: this,
-                                ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(2),
-                                ),
-                                _NoOfSeats(
-                                  loginForm: this,
-                                ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(2),
-                                ),
-                                _Timing(loginForm: this),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(3),
-                                ),
-                                _LoginButton(
-                                  loginForm: this,
-                                ),
-                                SizedBox(
-                                  height:
-                                      config.AppConfig(context).appHeight(4.5),
-                                ),
-                              ]),
-                        ],
-                      ),
-                    ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+                            _PhoneNo(
+                              loginForm: this,
+                            ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+                            _NoOfSeats(
+                              loginForm: this,
+                            ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(2),
+                            ),
+                            _Timing(loginForm: this),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(3),
+                            ),
+                            _LoginButton(
+                              loginForm: this,
+                            ),
+                            SizedBox(
+                              height: config.AppConfig(context).appHeight(4.5),
+                            ),
+                          ]),
+                    ],
                   ),
                 ),
               ),
-            );
-          },
-          listener: (context, state) async {}),
+            ),
+          ),
+        );
+      }, listener: (context, state) async {
+        if (state.statusApi!.isSubmissionFailure) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
+        }
+      }),
     );
   }
 }
@@ -363,6 +264,7 @@ class _TimingState extends State<_Timing> {
           alignment: Alignment.center,
           padding: EdgeInsets.zero,
           child: TextFormField(
+            readOnly: true,
             controller: widget.loginForm!.mobileNoTextEditor,
             style: TextStyle(color: Colors.black),
             textInputAction: TextInputAction.next,
@@ -451,12 +353,13 @@ class _KitchenNameState extends State<_KitchenName> {
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.name,
           maxLength: 15,
-          onChanged: (text) {},
+          onChanged: (text) {
+            context.read<CookProfileCubit>().onKitchnNameChanged(value: text);
+          },
           decoration: InputDecoration(
             counterText: '',
-            // errorText: state.nameFirst!.invalid
-            //     ? 'Please enter a valid first name'
-            //     : null,
+            errorText:
+                state.nameKitchn!.invalid ? 'Please enter a valid name' : null,
 
             hintStyle: GoogleFonts.gothicA1(
                 color: Theme.of(context).hintColor,
@@ -526,19 +429,18 @@ class _NoOfSeatsState extends State<_NoOfSeats> {
           // controller: widget.loginForm!.mobileNoTextEditor,
           style: TextStyle(color: Colors.black),
           textInputAction: TextInputAction.next,
-          keyboardType: TextInputType.name,
-          maxLength: 15,
-          onChanged: (text) {},
+          keyboardType: TextInputType.number,
+          maxLength: 10,
+          onChanged: (text) {
+            context.read<CookProfileCubit>().onSeatChanged(value: text);
+          },
           decoration: InputDecoration(
             counterText: '',
-            // errorText: state.nameLast!.invalid
-            //     ? 'Please enter a valid last name'
-            //     : null,
-
+            errorText:
+                state.noOfSeats.invalid ? 'Please enter a valid seats' : null,
             hintStyle: GoogleFonts.gothicA1(
                 color: Theme.of(context).hintColor,
                 fontSize: config.AppConfig(context).appWidth(4)),
-
             hintText: 'No. of seats',
             contentPadding:
                 EdgeInsets.all(config.AppConfig(context).appWidth(2)),
@@ -605,12 +507,12 @@ class _PhoneNoState extends State<_PhoneNo> {
           keyboardType: TextInputType.phone,
           maxLength: 15,
           onChanged: (text) {
-            //context.read<SignUpCubit>().onPhoneChanged(value: text);
+            context.read<CookProfileCubit>().onPhoneChanged(value: text);
           },
           decoration: InputDecoration(
             counterText: '',
-            // errorText:
-            //     state.phone.invalid ? 'Please enter a valid phone no' : null,
+            errorText:
+                state.phone.invalid ? 'Please enter a valid phone no' : null,
 
             hintStyle: GoogleFonts.gothicA1(
                 color: Theme.of(context).hintColor,
@@ -659,6 +561,65 @@ class _PhoneNoState extends State<_PhoneNo> {
   }
 }
 
+class _UploadButton extends StatefulWidget {
+  const _UploadButton({Key? key, this.loginForm}) : super(key: key);
+
+  final _OTPPage? loginForm;
+
+  @override
+  _UploadbuttonState createState() => _UploadbuttonState();
+}
+
+class _UploadbuttonState extends State<_UploadButton> {
+  final ImagePicker _picker = ImagePicker();
+
+  void _pickImage() async {
+    try {
+      final pickedFile = await _picker.getImage(source: ImageSource.gallery);
+      setState(() {
+        widget.loginForm!._imageFile = pickedFile;
+        print('${widget.loginForm!._imageFile!.path}');
+        Helper.showToast('Image added successfully');
+      });
+    } catch (e) {
+      print("Image picker error ${e}");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<CookProfileCubit, CookProfileState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Container(
+          height: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor,
+                  ])),
+          child: MaterialButton(
+              child: Text(
+                'Upload Photos',
+                style: GoogleFonts.gothicA1(
+                    fontSize: config.AppConfig(context).appWidth(3.5),
+                    color: Colors.white),
+              ),
+              minWidth: config.AppConfig(context).appWidth(100),
+              height: 50.0,
+              onPressed: () {
+                _pickImage();
+              }),
+        );
+      },
+    );
+  }
+}
+
 class _LoginButton extends StatelessWidget {
   final _OTPPage? loginForm;
 
@@ -669,50 +630,48 @@ class _LoginButton extends StatelessWidget {
     return BlocConsumer<CookProfileCubit, CookProfileState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return /*state.status!.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : */
-            Container(
+        return Container(
           height: 45,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
-                colors: /* state.status!.isValidated
-                          ? [
-                              Theme.of(context).primaryColor,
-                              Theme.of(context).primaryColor,
-                            ]
-                          : */
-                    [
-                  Theme.of(context).primaryColorLight,
-                  Theme.of(context).primaryColorLight,
-                ],
+                colors: state.status!.isValidated
+                    ? [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).primaryColor,
+                      ]
+                    : [
+                        Theme.of(context).primaryColorLight,
+                        Theme.of(context).primaryColorLight,
+                      ],
               )),
           child: MaterialButton(
-              child: /*state.statusApi!.isSubmissionInProgress
-                        ? const Center(
-                            child: CupertinoActivityIndicator(
-                              color: Colors.white,
-                            ),
-                          )
-                        : */
-                  Text(
-                'SUBMIT',
-                style: GoogleFonts.gothicA1(
-                    fontSize: config.AppConfig(context).appWidth(3.5),
-                    color: Colors.white),
-              ),
+              child: state.statusApi!.isSubmissionInProgress
+                  ? const Center(
+                      child: CupertinoActivityIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(
+                      'SUBMIT',
+                      style: GoogleFonts.gothicA1(
+                          fontSize: config.AppConfig(context).appWidth(3.5),
+                          color: Colors.white),
+                    ),
               minWidth: config.AppConfig(context).appWidth(100),
               height: 50.0,
               onPressed: () {
                 //
                 // navigatorKey.currentState!.popAndPushNamed('/OTPPage');
                 // return;
-                // if (state.status!.isValidated) {
-                //   context.read<SignUpCubit>().onSignUp();
-                // }
+                if (state.status!.isValidated) {
+                  context
+                      .read<CookProfileCubit>()
+                      .onKitchnUpload(loginForm!._imageFile!.path);
+                  print('ImagePath ${loginForm!._imageFile!.path}');
+                }
               }),
         );
       },
