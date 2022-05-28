@@ -48,6 +48,7 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
 
   TextEditingController? mobileNoTextEditor = TextEditingController();
   TextEditingController? passwordTextEditor = TextEditingController();
+  ScrollController? controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +79,11 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            height: config.AppConfig(context).appHeight(2),
+                          ),
                           Text(
                             'Your account has been created',
                             style: GoogleFonts.gothicA1(
@@ -104,19 +108,84 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                       SizedBox(
                         height: config.AppConfig(context).appHeight(2),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color:
-                                config.AppColors().textFieldBackgroundColor(1),
-                            borderRadius: BorderRadius.circular(
-                                config.AppConfig(context).appWidth(5))),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.photo_outlined,
-                          size: config.AppConfig(context).appWidth(30),
-                          color: Colors.grey,
-                        ),
-                      ),
+                      state.pathFiles.isNotEmpty
+                          ? Container(
+                              height: config.AppConfig(context).appHeight(20),
+                              child: ListView.separated(
+                                controller: controller,
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    width:
+                                        config.AppConfig(context).appWidth(2),
+                                  );
+                                },
+                                shrinkWrap: true,
+                                // reverse: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return Stack(
+                                    children: [
+                                      Container(
+                                        height: config.AppConfig(context)
+                                            .appHeight(20),
+                                        width: config.AppConfig(context)
+                                            .appWidth(85),
+                                        decoration: BoxDecoration(
+                                          color: config.AppColors()
+                                              .textFieldBackgroundColor(1),
+                                          borderRadius: BorderRadius.circular(
+                                              config.AppConfig(context)
+                                                  .appWidth(5)),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Image.file(
+                                            File(state.pathFiles[index])),
+
+                                        /*Icon(
+                                    Icons.photo_outlined,
+                                    size:
+                                        config.AppConfig(context).appWidth(30),
+                                    color: Colors.grey,
+                                  ),*/
+                                      ),
+                                      Positioned(
+                                          right: 6,
+                                          top: 6,
+                                          child: InkWell(
+                                            onTap: () {
+                                              context
+                                                  .read<CookProfileCubit>()
+                                                  .onDeleteImage(
+                                                      path: state
+                                                          .pathFiles[index]);
+                                            },
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                              size: config.AppConfig(context)
+                                                  .appWidth(6),
+                                            ),
+                                          )),
+                                    ],
+                                  );
+                                },
+                                itemCount: state.pathFiles.length,
+                              ),
+                            )
+                          : Container(
+                              height: config.AppConfig(context).appHeight(20),
+                              decoration: BoxDecoration(
+                                  color: config.AppColors()
+                                      .textFieldBackgroundColor(1),
+                                  borderRadius: BorderRadius.circular(
+                                      config.AppConfig(context).appWidth(5))),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.photo_outlined,
+                                size: config.AppConfig(context).appWidth(30),
+                                color: Colors.grey,
+                              ),
+                            ),
                       SizedBox(
                         height: config.AppConfig(context).appHeight(2),
                       ),
@@ -125,7 +194,7 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                       ),
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
                               height: config.AppConfig(context).appHeight(2),
@@ -222,9 +291,6 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                             ),
                             _LoginButton(
                               loginForm: this,
-                            ),
-                            SizedBox(
-                              height: config.AppConfig(context).appHeight(4.5),
                             ),
                           ]),
                     ],
@@ -573,19 +639,6 @@ class _UploadButton extends StatefulWidget {
 class _UploadbuttonState extends State<_UploadButton> {
   final ImagePicker _picker = ImagePicker();
 
-  void _pickImage() async {
-    try {
-      final pickedFile = await _picker.getImage(source: ImageSource.gallery);
-      setState(() {
-        widget.loginForm!._imageFile = pickedFile;
-        print('${widget.loginForm!._imageFile!.path}');
-        Helper.showToast('Image added successfully');
-      });
-    } catch (e) {
-      print("Image picker error ${e}");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CookProfileCubit, CookProfileState>(
@@ -612,11 +665,110 @@ class _UploadbuttonState extends State<_UploadButton> {
               minWidth: config.AppConfig(context).appWidth(100),
               height: 50.0,
               onPressed: () {
-                _pickImage();
+                // _pickImage();
+
+                if (state.pathFiles.length <= 3) {
+                  showDialog<bool>(
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                'Add image',
+                                style: GoogleFonts.gothicA1(
+                                    color: Colors.black,
+                                    fontSize:
+                                        config.AppConfig(context).appWidth(5)),
+                              ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  MaterialButton(
+                                    color: Theme.of(context).primaryColor,
+                                    child: const Text(
+                                      "Gallery",
+                                      style: TextStyle(
+                                          color: Colors.white70,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () {
+                                      navigatorKey.currentState!.pop(false);
+                                    },
+                                  ),
+                                  MaterialButton(
+                                    color: Theme.of(context).primaryColor,
+                                    child: const Text(
+                                      "Camera",
+                                      style: TextStyle(
+                                          color: Colors.white70,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () {
+                                      navigatorKey.currentState!.pop(true);
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          context: context)
+                      .then((value) {
+                    if (value != null) {
+                      if (value) {
+                        //Get from camera
+                        _openCamera(context);
+                      } else {
+                        //Get from gallery
+                        _openGallery(context);
+                      }
+                    }
+                  });
+                } else {
+                  Helper.showToast('Photos limit reached.');
+                }
               }),
         );
       },
     );
+  }
+
+  void _openGallery(BuildContext context) async {
+    var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    try {
+      if (picture!.path != null) {
+        print('path ${picture.path}');
+        context.read<CookProfileCubit>().onNewImageAdded(path: picture.path);
+        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+          widget.loginForm!.controller!
+              .jumpTo(widget.loginForm!.controller!.position.maxScrollExtent);
+        });
+      } else {
+        Helper.showToast('No image selected.');
+      }
+    } catch (e) {
+      Helper.showToast('No image selected.');
+    }
+  }
+
+  Future<void> _openCamera(BuildContext context) async {
+    var picture = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
+
+    try {
+      if (picture!.path != null) {
+        print('path ${picture.path}');
+        context.read<CookProfileCubit>().onNewImageAdded(path: picture.path);
+        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+          widget.loginForm!.controller!
+              .jumpTo(widget.loginForm!.controller!.position.maxScrollExtent);
+        });
+        // widget.loginForm!.controller!.animateTo(context.read<CookProfileCubit>().state.pathFiles.length.toDouble(), duration: Duration(milliseconds: 100 ), curve: Curves.ease);
+
+      } else {
+        Helper.showToast('No image captured.');
+      }
+    } catch (e) {
+      Helper.showToast('No image captured.');
+    }
   }
 }
 
@@ -667,10 +819,7 @@ class _LoginButton extends StatelessWidget {
                 // navigatorKey.currentState!.popAndPushNamed('/OTPPage');
                 // return;
                 if (state.status!.isValidated) {
-                  context
-                      .read<CookProfileCubit>()
-                      .onKitchnUpload(loginForm!._imageFile!.path);
-                  print('ImagePath ${loginForm!._imageFile!.path}');
+                  context.read<CookProfileCubit>().onKitchnUpload();
                 }
               }),
         );

@@ -22,7 +22,31 @@ class CookProfileCubit extends Cubit<CookProfileState> {
   final RouteArguments? routeArguments;
   AuthenticationRepository? authenticationRepository;
 
-  onKitchnUpload(String filePath) async {
+  onNewImageAdded({String? path}) {
+    List<String> allPaths = [];
+    if (state.pathFiles.isNotEmpty) {
+      allPaths.addAll(state.pathFiles);
+      allPaths.add(path!);
+    } else {
+      allPaths.add(path!);
+    }
+
+    emit(state.copyWith(pathFiles: allPaths));
+  }
+
+  onDeleteImage({String? path}) {
+    List<String> allPaths = [];
+    if (state.pathFiles.isNotEmpty) {
+      allPaths.addAll(state.pathFiles);
+      allPaths.removeWhere((element) => element.toString() == path.toString());
+    } else {
+      allPaths.removeWhere((element) => element.toString() == path.toString());
+    }
+
+    emit(state.copyWith(pathFiles: allPaths));
+  }
+
+  onKitchnUpload(  ) async {
     try {
       emit(state.copyWith(statusApi: FormzStatus.submissionInProgress));
       Map<String, dynamic> map = {};
@@ -33,10 +57,10 @@ class CookProfileCubit extends Cubit<CookProfileState> {
       map['user_id'] = routeArguments!.data!.user!.id;
 
       print('mapppss ${map.toString()}');
-      print('filePath ${filePath}');
+
 
       var response = await authenticationRepository!.vendorKitchnUpload(
-          data: map, routeArguments: routeArguments, filePath: filePath);
+          data: map, routeArguments: routeArguments, filePaths: state.pathFiles);
       if (response.statusCode == 200) {
         jsonDecode(response.body);
 

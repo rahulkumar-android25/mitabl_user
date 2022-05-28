@@ -176,7 +176,7 @@ class AuthenticationRepository {
   Future<dynamic?> vendorKitchnUpload(
       {required Map<String, dynamic> data,
       required RouteArguments? routeArguments,
-      required String filePath}) async {
+      required List<String> filePaths}) async {
     try {
       final url =
           '${GlobalConfiguration().getValue<String>('api_base_url')}v1/mikitchn/store';
@@ -193,8 +193,10 @@ class AuthenticationRepository {
 
       //for image and videos and files
 
-      request.files
-          .add(await http.MultipartFile.fromPath("images[]", "${filePath}"));
+      filePaths.forEach((element) async {
+        request.files
+            .add(await http.MultipartFile.fromPath("images[]", "${element}"));
+      });
 
       request.fields.addAll({
         'name': '${data['name']}',
@@ -206,6 +208,7 @@ class AuthenticationRepository {
         'user_id': '${data['user_id']}'
       });
       // request.fields['timings'] = '{}';
+      print('request ${request.url}  ${request.fields}');
       //for completeing the request
       var response = await request.send();
 

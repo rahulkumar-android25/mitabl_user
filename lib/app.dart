@@ -103,8 +103,7 @@ class _AppViewState extends State<AppView> {
             child: child,
           );
         },
-        // initialRoute: '/Splash',
-        initialRoute: '/CookProfile',
+        initialRoute: '/Splash',
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouteGenerator.generateRoute,
         theme: ThemeData(
