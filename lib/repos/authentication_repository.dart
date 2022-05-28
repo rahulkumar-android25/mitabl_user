@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
+import 'package:mitabl_user/helper/route_arguement.dart';
 import 'package:mitabl_user/model/user_model.dart';
 import 'package:mitabl_user/repos/user_repository.dart';
 
@@ -167,6 +168,57 @@ class AuthenticationRepository {
         return response;
       }
       return response;
+    } catch (e) {
+      print('exception $e');
+    }
+  }
+
+  Future<dynamic?> vendorKitchnUpload(
+      {required Map<String, dynamic> data,
+      required RouteArguments? routeArguments,
+      required String filePath}) async {
+    try {
+      final url =
+          '${GlobalConfiguration().getValue<String>('api_base_url')}v1/mikitchn/store';
+
+      print(url);
+      print(data['name']);
+
+      //for multipartrequest
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+      //for token
+      request.headers.addAll(
+          {"Authorization": "Bearer ${routeArguments!.data!.accessToken}"});
+
+      //for image and videos and files
+
+      request.files
+          .add(await http.MultipartFile.fromPath("images[]", "${filePath}"));
+
+      request.fields.addAll({
+        'name': '${data['name']}',
+        'address': '${data['address']}',
+        'no_of_seats': '${data['no_of_seats']}',
+        'timings':
+            '{\n    \'mon\':{\n        \'isOn\':1,\n        \'timing\': {\n            \'start_time\': \'07:00\',\n            \'end_time\': \'08:00\',\n        }\n    },\n    \'tue\':1,\n    \'wed\':1\n}',
+        'phone': '${data['phone']}',
+        'user_id': '${data['user_id']}'
+      });
+      // request.fields['timings'] = '{}';
+      //for completeing the request
+      var response = await request.send();
+
+      //for getting and decoding the response into json format
+      var responsed = await http.Response.fromStream(response);
+      final responseData = json.decode(responsed.body);
+
+      print('response ${jsonDecode(responsed.body)}');
+      if (response.statusCode == 200) {
+        print("SUCCESS");
+        return responsed;
+      }
+      return responsed;
     } catch (e) {
       print('exception $e');
     }

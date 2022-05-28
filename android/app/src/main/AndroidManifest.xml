@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mitabl.user.mitabl_user">
    <application
-        android:label="mitabl_user"
+       android:requestLegacyExternalStorage="true"
+       android:label="mitabl_user"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
