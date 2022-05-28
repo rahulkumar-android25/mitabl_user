@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
+import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
@@ -41,6 +43,49 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
 
   TextEditingController? mobileNoTextEditor = TextEditingController();
   TextEditingController? passwordTextEditor = TextEditingController();
+
+  void _openGallery() async {
+    //var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    try {
+      if (picture!.path != null) {
+        // context
+        //     .bloc<BookAppointmentBloc>()
+        //     .add(ServiceImageChanged(picture.path, index));
+      } else {
+        Helper.showToast('No image selected.');
+      }
+    } catch (e) {
+      Helper.showToast('No image selected.');
+    }
+    //  this.setState(() {
+    /*imageFile = File(picture.path);
+
+    final bytes = Io.File(imageFile.path).readAsBytesSync();
+    String base64Encode(List<int> bytes) => base64.encode(bytes);
+    print("BASE_64" + base64Encode(bytes));*/
+
+//    _con.updateProfilePic(picture.path,currentUser.value);
+    //_con.user.base64Image=base64Encode(bytes) ;
+    /*});*/
+  }
+
+  Future<void> _openCamera() async {
+    var picture = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
+
+    try {
+      if (picture!.path != null) {
+        // BlocProvider.of<BookAppointmentBloc>(context)
+        //     .add(ServiceImageChanged(picture.path, index));
+      } else {
+        Helper.showToast('No image captured.');
+      }
+    } catch (e) {
+      Helper.showToast('No image captured.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,21 +142,83 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                           SizedBox(
                             height: config.AppConfig(context).appHeight(2),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: config.AppColors()
-                                  .textFieldBackgroundColor(1),
-                            borderRadius: BorderRadius.circular(config.AppConfig(context).appWidth(5))
+                          InkWell(
+                            onTap: () {
+                              showDialog<bool>(
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            'Add image',
+                                            style: GoogleFonts.gothicA1(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    config.AppConfig(context)
+                                                        .appWidth(5)),
+                                          ),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              MaterialButton(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                child: const Text(
+                                                  "Gallery",
+                                                  style: TextStyle(
+                                                      color: Colors.white70,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                onPressed: () {
+                                                  navigatorKey.currentState!
+                                                      .pop(false);
+                                                },
+                                              ),
+                                              MaterialButton(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                child: const Text(
+                                                  "Camera",
+                                                  style: TextStyle(
+                                                      color: Colors.white70,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                onPressed: () {
+                                                  navigatorKey.currentState!
+                                                      .pop(true);
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      context: context)
+                                  .then((value) {
+                                if (value != null) {
+                                  if (value) {
+                                    //Get from camera
+                                    _openCamera();
+                                  } else {
+                                    //Get from gallery
+                                    _openGallery();
+                                  }
+                                }
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: config.AppColors()
+                                      .textFieldBackgroundColor(1),
+                                  borderRadius: BorderRadius.circular(
+                                      config.AppConfig(context).appWidth(5))),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.photo_outlined,
+                                size: config.AppConfig(context).appWidth(30),
+                                color: Colors.grey,
+                              ),
                             ),
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.photo_outlined,
-                              size: config.AppConfig(context).appWidth(30),
-                              color: Colors.grey,
-                            ),
-
                           ),
-
                           SizedBox(
                             height: config.AppConfig(context).appHeight(2),
                           ),
@@ -210,7 +317,6 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                                   height:
                                       config.AppConfig(context).appHeight(2),
                                 ),
-
                                 _Timing(loginForm: this),
                                 SizedBox(
                                   height:
