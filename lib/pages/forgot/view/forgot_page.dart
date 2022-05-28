@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
@@ -268,43 +269,44 @@ class _LoginButton extends StatelessWidget {
     return BlocConsumer<ForgotCubit, ForgotState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return state.status!.isSubmissionInProgress
-            ? Container(
-                child: const CircularProgressIndicator(),
-                alignment: Alignment.center,
-              )
-            : Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: state.status!.isValidated
-                          ? [
-                              Theme.of(context).primaryColor,
-                              Theme.of(context).primaryColor,
-                            ]
-                          : [
-                              Theme.of(context).primaryColorLight,
-                              Theme.of(context).primaryColorLight,
-                            ],
-                    )),
-                child: MaterialButton(
-                    child: Text(
+        return Container(
+          height: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: state.status!.isValidated
+                    ? [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).primaryColor,
+                      ]
+                    : [
+                        Theme.of(context).primaryColorLight,
+                        Theme.of(context).primaryColorLight,
+                      ],
+              )),
+          child: MaterialButton(
+              child: state.status!.isSubmissionInProgress
+                  ? const Center(
+                      child: CupertinoActivityIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(
                       'SUBMIT',
                       style: GoogleFonts.gothicA1(
                           fontSize: config.AppConfig(context).appWidth(3.5),
                           color: Colors.white),
                     ),
-                    minWidth: config.AppConfig(context).appWidth(100),
-                    height: 50.0,
-                    onPressed: () {
-                      if (state.status!.isValidated) {
-                        context.read<ForgotCubit>().forgot();
-                      }
-                    }),
-              );
+              minWidth: config.AppConfig(context).appWidth(100),
+              height: 50.0,
+              onPressed: () {
+                if (state.status!.isValidated) {
+                  context.read<ForgotCubit>().forgot();
+                }
+              }),
+        );
       },
     );
   }

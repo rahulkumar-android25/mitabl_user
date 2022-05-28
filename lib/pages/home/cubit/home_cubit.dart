@@ -30,19 +30,22 @@ class HomeCubit extends Cubit<HomeState> {
       Response response =
           await _authenticationRepository.logOutApi(userModel: userModel);
 
+      print('Respomse ${jsonDecode(response.body)}');
+
       if (response.statusCode == 200) {
         emit(state.copyWith(
             status: FormzStatus.submissionSuccess,
             serverMessage: jsonDecode(response.body)['message']));
         _authenticationRepository.logOut();
       } else {
-        emit(state.copyWith(
-            status: FormzStatus.submissionFailure,
-            serverMessage: 'Something went wrong...'));
+        // emit(state.copyWith(
+        //     status: FormzStatus.submissionFailure,
+        //     serverMessage: 'Something went wrong...'));
 
         emit(state.copyWith(
           status: FormzStatus.pure,
         ));
+        _authenticationRepository.logOut();
       }
     } catch (e) {
       print('exceptionLogin $e');

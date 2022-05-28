@@ -7,6 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
+import 'package:mitabl_user/helper/route_arguement.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
@@ -17,11 +18,11 @@ class CookProfilePage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static Route route() {
+  static Route route({RouteArguments? routeArguments}) {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
-              create: (context) =>
-                  CookProfileCubit(context.read<AuthenticationRepository>()),
+              create: (context) => CookProfileCubit(
+                  context.read<AuthenticationRepository>(), routeArguments),
               child: const CookProfilePage(),
             ));
     // );
@@ -99,19 +100,17 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              color: config.AppColors()
-                                  .textFieldBackgroundColor(1),
-                            borderRadius: BorderRadius.circular(config.AppConfig(context).appWidth(5))
-                            ),
+                                color: config.AppColors()
+                                    .textFieldBackgroundColor(1),
+                                borderRadius: BorderRadius.circular(
+                                    config.AppConfig(context).appWidth(5))),
                             alignment: Alignment.center,
                             child: Icon(
                               Icons.photo_outlined,
                               size: config.AppConfig(context).appWidth(30),
                               color: Colors.grey,
                             ),
-
                           ),
-
                           SizedBox(
                             height: config.AppConfig(context).appHeight(2),
                           ),
@@ -210,7 +209,6 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
                                   height:
                                       config.AppConfig(context).appHeight(2),
                                 ),
-
                                 _Timing(loginForm: this),
                                 SizedBox(
                                   height:

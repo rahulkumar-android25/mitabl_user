@@ -38,7 +38,7 @@ class RouteGenerator {
         return HomePage.route();
 
       case '/CookProfile':
-        return CookProfilePage.route();
+        return CookProfilePage.route(routeArguments: args as RouteArguments);
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
