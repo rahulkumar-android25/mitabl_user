@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:mitabl_user/helper/appconstants.dart';
 import 'package:mitabl_user/helper/helper.dart';
 
 import 'package:mitabl_user/helper/route_arguement.dart';
@@ -10,13 +11,57 @@ import 'package:mitabl_user/model/name.dart';
 import 'package:mitabl_user/model/phone.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
+import '../../../../model/timing_model.dart';
+
 part 'cook_profile_state.dart';
 
 class CookProfileCubit extends Cubit<CookProfileState> {
   CookProfileCubit(this.authenticationRepository, this.routeArguments)
-      : super(CookProfileState()) {
-    print(
-        'Sunny ${routeArguments!.data!.user!.id} Access ${routeArguments!.data!.accessToken}');
+      : super(const CookProfileState(days: AppConstants.DAYS)) {
+    setUpTimingModel();
+  }
+
+  setUpTimingModel() {
+    TimingModel? timingModel;
+    List<Days> daysTiming = [];
+    AppConstants.DAYS.forEach((element) {
+      daysTiming.add(Days(
+          day: element.toString(),
+          isOn: false,
+          timing: Timing(endTime: '9:00 AM', startTime: '9:00 PM')));
+    });
+
+    emit(state.copyWith(daysTiming: daysTiming));
+  }
+
+  onSwitchChanged(
+      {int? index, bool? switchValue, String? startTime, String? endTime}) {
+    List<Days> daysTiming = [];
+    daysTiming.addAll(state.daysTiming);
+    Days? days;
+    Timing? timing;
+    if (switchValue != null) {
+      days = daysTiming[index!].copyWith(isOn: switchValue);
+      daysTiming.removeAt(index);
+      daysTiming.insert(index, days);
+      emit(state.copyWith(daysTiming: daysTiming));
+    } else if (startTime != null) {
+      timing = daysTiming[index!].timing;
+
+      days = daysTiming[index]
+          .copyWith(timing: timing!.copyWith(startTime: startTime));
+      daysTiming.removeAt(index);
+      daysTiming.insert(index, days);
+      emit(state.copyWith(daysTiming: daysTiming));
+    } else if (endTime != null) {
+      timing = daysTiming[index!].timing;
+
+      days = daysTiming[index]
+          .copyWith(timing: timing!.copyWith(endTime: endTime));
+      daysTiming.removeAt(index);
+      daysTiming.insert(index, days);
+      emit(state.copyWith(daysTiming: daysTiming));
+    }
   }
 
   final RouteArguments? routeArguments;
@@ -46,7 +91,7 @@ class CookProfileCubit extends Cubit<CookProfileState> {
     emit(state.copyWith(pathFiles: allPaths));
   }
 
-  onKitchnUpload(  ) async {
+  onKitchnUpload() async {
     try {
       emit(state.copyWith(statusApi: FormzStatus.submissionInProgress));
       Map<String, dynamic> map = {};
@@ -58,9 +103,10 @@ class CookProfileCubit extends Cubit<CookProfileState> {
 
       print('mapppss ${map.toString()}');
 
-
       var response = await authenticationRepository!.vendorKitchnUpload(
-          data: map, routeArguments: routeArguments, filePaths: state.pathFiles);
+          data: map,
+          routeArguments: routeArguments,
+          filePaths: state.pathFiles);
       if (response.statusCode == 200) {
         jsonDecode(response.body);
 

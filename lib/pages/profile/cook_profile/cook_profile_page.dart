@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
-import 'package:mitabl_user/helper/appconstants.dart';
 import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/helper/route_arguement.dart';
-import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
+import 'package:mitabl_user/pages/profile/cook_profile/element/timing_dialog.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
 import 'cubit/cook_profile_cubit.dart';
@@ -52,7 +50,7 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 0.4;
+    // timeDilation = 0.4;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return Scaffold(
       body: BlocConsumer<CookProfileCubit, CookProfileState>(
@@ -344,9 +342,21 @@ class _TimingState extends State<_Timing> {
               // errorText:
               //     state.email!.invalid ? 'Please enter a valid email id' : null,
 
-              suffixIcon: Icon(
-                Icons.access_time_rounded,
-                color: Theme.of(context).primaryColor,
+              suffixIcon: InkWell(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (contexts) {
+                        return BlocProvider.value(
+                          value: context.read<CookProfileCubit>(),
+                          child: TimingDialog(),
+                        );
+                      });
+                },
+                child: Icon(
+                  Icons.access_time_rounded,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
               hintStyle: GoogleFonts.gothicA1(
                   color: Theme.of(context).hintColor,
