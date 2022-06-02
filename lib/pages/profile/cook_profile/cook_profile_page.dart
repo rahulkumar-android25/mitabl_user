@@ -747,7 +747,7 @@ class _UploadbuttonState extends State<_UploadButton> {
       if (picture!.path != null) {
         print('path ${picture.path}');
         context.read<CookProfileCubit>().onNewImageAdded(path: picture.path);
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           widget.loginForm!.controller!
               .jumpTo(widget.loginForm!.controller!.position.maxScrollExtent);
         });
@@ -767,7 +767,7 @@ class _UploadbuttonState extends State<_UploadButton> {
       if (picture!.path != null) {
         print('path ${picture.path}');
         context.read<CookProfileCubit>().onNewImageAdded(path: picture.path);
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           widget.loginForm!.controller!
               .jumpTo(widget.loginForm!.controller!.position.maxScrollExtent);
         });
