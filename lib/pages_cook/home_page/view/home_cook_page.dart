@@ -44,7 +44,7 @@ class _HomePageCookState extends State<HomePageCook> {
                   BlocBuilder<ProfileCookCubit, ProfileCookState>(
                     builder: (context, state) {
                       return Text(
-                        'Hello, ${state.cookProfile!.data!.firstName} ${state.cookProfile!.data!.lastName}',
+                        'Hello, ${ state.cookProfile!=null?state.cookProfile!.data!.firstName:''} ${ state.cookProfile!=null?state.cookProfile!.data!.lastName:''}',
                         style: GoogleFonts.gothicA1(
                             color: Theme.of(context).primaryColorDark,
                             fontSize: config.AppConfig(context).appWidth(6),
@@ -58,7 +58,8 @@ class _HomePageCookState extends State<HomePageCook> {
                     builder: (context, state) {
                       return CachedNetworkImage(
                         imageUrl:
-                            "${GlobalConfiguration().getValue<String>('base_url')}/${state.cookProfile!.data!.avatar}",
+                        state.cookProfile!=null?
+                        "${GlobalConfiguration().getValue<String>('base_url')}/${state.cookProfile!.data!.avatar}":'',
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 CircularProgressIndicator(
