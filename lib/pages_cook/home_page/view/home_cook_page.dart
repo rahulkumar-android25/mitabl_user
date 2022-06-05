@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
+import 'package:mitabl_user/pages_cook/profile_cook/cubit/profile_cook_cubit.dart';
+import 'package:mitabl_user/pages_cook/profile_cook/cubit/profile_cook_cubit.dart';
 
 import '../../../helper/shape_custom.dart';
 
@@ -37,40 +41,51 @@ class _HomePageCookState extends State<HomePageCook> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Hello, John Doe',
-                    style: GoogleFonts.gothicA1(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: config.AppConfig(context).appWidth(6),
-                        fontWeight: FontWeight.w500),
+                  BlocBuilder<ProfileCookCubit, ProfileCookState>(
+                    builder: (context, state) {
+                      return Text(
+                        'Hello, ${state.cookProfile!.data!.firstName} ${state.cookProfile!.data!.lastName}',
+                        style: GoogleFonts.gothicA1(
+                            color: Theme.of(context).primaryColorDark,
+                            fontSize: config.AppConfig(context).appWidth(6),
+                            fontWeight: FontWeight.w500),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      );
+                    },
                   ),
-                  CachedNetworkImage(
-                    imageUrl: "",
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            CircularProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Container(
-                        padding: EdgeInsets.all(
-                            config.AppConfig(context).appWidth(3)),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).primaryColorDark,
+                  BlocBuilder<ProfileCookCubit, ProfileCookState>(
+                    builder: (context, state) {
+                      return CachedNetworkImage(
+                        imageUrl:
+                            "${GlobalConfiguration().getValue<String>('base_url')}/${state.cookProfile!.data!.avatar}",
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Container(
+                            padding: EdgeInsets.all(
+                                config.AppConfig(context).appWidth(3)),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            )),
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: config.AppConfig(context).appWidth(15),
+                          width: config.AppConfig(context).appWidth(15),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(100)),
                         ),
-                        child: const Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        )),
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: config.AppConfig(context).appWidth(15),
-                      width: config.AppConfig(context).appWidth(15),
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(100)),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -187,23 +202,28 @@ class _HomePageCookState extends State<HomePageCook> {
                     ),
                     Positioned(
                       right: 0,
-                      child: CustomPaint(
-                        painter: CustomShapeCook(),
-                        child: Container(
-                          padding: EdgeInsets.all(
-                              config.AppConfig(context).appWidth(6)),
-                          width: config.AppConfig(context).appWidth(30),
-                          height: config.AppConfig(context).appHeight(18),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          )),
-                          child: SvgPicture.asset(
-                            'assets/img/booking.svg',
-                            height: config.AppConfig(context).appHeight(12),
-                            width: config.AppConfig(context).appHeight(12),
-                            color: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        child: CustomPaint(
+                          painter: CustomShapeCook(),
+                          child: Container(
+                            padding: EdgeInsets.all(
+                                config.AppConfig(context).appWidth(6)),
+                            width: config.AppConfig(context).appWidth(30),
+                            height: config.AppConfig(context).appHeight(18),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            )),
+                            child: SvgPicture.asset(
+                              'assets/img/booking.svg',
+                              height: config.AppConfig(context).appHeight(12),
+                              width: config.AppConfig(context).appHeight(12),
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -271,23 +291,28 @@ class _HomePageCookState extends State<HomePageCook> {
                     ),
                     Positioned(
                       right: 0,
-                      child: CustomPaint(
-                        painter: CustomShapeCook(),
-                        child: Container(
-                          padding: EdgeInsets.all(
-                              config.AppConfig(context).appWidth(6)),
-                          width: config.AppConfig(context).appWidth(30),
-                          height: config.AppConfig(context).appHeight(18),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          )),
-                          child: SvgPicture.asset(
-                            'assets/img/plate.svg',
-                            height: config.AppConfig(context).appHeight(12),
-                            width: config.AppConfig(context).appHeight(12),
-                            color: Colors.white,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        child: CustomPaint(
+                          painter: CustomShapeCook(),
+                          child: Container(
+                            padding: EdgeInsets.all(
+                                config.AppConfig(context).appWidth(6)),
+                            width: config.AppConfig(context).appWidth(30),
+                            height: config.AppConfig(context).appHeight(18),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            )),
+                            child: SvgPicture.asset(
+                              'assets/img/plate.svg',
+                              height: config.AppConfig(context).appHeight(12),
+                              width: config.AppConfig(context).appHeight(12),
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

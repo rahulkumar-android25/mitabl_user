@@ -34,7 +34,8 @@ class CookProfilePage extends StatefulWidget {
   State<StatefulWidget> createState() => _CookProfilePage();
 }
 
-class _CookProfilePage extends State<CookProfilePage> with TickerProviderStateMixin {
+class _CookProfilePage extends State<CookProfilePage>
+    with TickerProviderStateMixin {
   _CookProfilePage();
 
   PickedFile? _imageFile;
@@ -742,7 +743,7 @@ class _UploadbuttonState extends State<_UploadButton> {
 
   void _openGallery(BuildContext context) async {
     var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
-
+    // print('path ${picture!.path}');
     try {
       if (picture!.path != null) {
         print('path ${picture.path}');

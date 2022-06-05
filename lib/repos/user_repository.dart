@@ -73,7 +73,7 @@ class UserRepository {
   Future<dynamic?> getCookProfile() async {
     try {
       final url =
-          '${GlobalConfiguration().getValue<String>('api_base_url')}getprofile';
+          '${GlobalConfiguration().getValue<String>('api_base_url')}v1/getprofile';
 
       print(url);
       print(user!.data!.accessToken);
@@ -89,6 +89,50 @@ class UserRepository {
         return response;
       }
       return response;
+    } catch (e) {
+      print('exception $e');
+    }
+  }
+
+  //  v1/editprofile
+  Future<dynamic?> updateCookProfile(
+      {required Map<String, String> data, required String filePath}) async {
+    try {
+      final url =
+          '${GlobalConfiguration().getValue<String>('api_base_url')}v1/editprofile';
+
+      print(url);
+      print(data);
+
+      //for multipartrequest
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+      //for token
+      request.headers
+          .addAll({"Authorization": "Bearer ${user!.data!.accessToken}"});
+
+      //for image and videos and files
+
+      if (filePath.toString()!='') {
+        request.files.add(await http.MultipartFile.fromPath("avatar", filePath));
+      }
+
+      request.fields.addAll(data);
+      // request.fields['timings'] = '{}';
+      print('request ${request.url}  ${request.fields}');
+      //for completeing the request
+      var response = await request.send();
+
+      //for getting and decoding the response into json format
+      var responsed = await http.Response.fromStream(response);
+      final responseData = json.decode(responsed.body);
+
+      print('response ${jsonDecode(responsed.body)}');
+      if (response.statusCode == 200) {
+        print("SUCCESS");
+        return responsed;
+      }
+      return responsed;
     } catch (e) {
       print('exception $e');
     }

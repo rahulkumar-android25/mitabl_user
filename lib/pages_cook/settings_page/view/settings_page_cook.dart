@@ -29,165 +29,170 @@ class SettingsCookPage extends StatefulWidget {
 class _SettingsCookPageState extends State<SettingsCookPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: config.AppConfig(context).appWidth(3),
-          right: config.AppConfig(context).appWidth(3),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: config.AppConfig(context).appHeight(5),
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    navigatorKey.currentState!.pop();
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    size: config.AppConfig(context).appWidth(5),
-                    color: Theme.of(context).primaryColorDark,
-                  ),
-                ),
-                SizedBox(
-                  width: config.AppConfig(context).appWidth(2),
-                ),
-                Text(
-                  'Settings',
-                  style: GoogleFonts.gothicA1(
-                      color: Theme.of(context).primaryColorDark,
-                      fontSize: config.AppConfig(context).appWidth(6),
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: config.AppConfig(context).appHeight(3),
-            ),
-            ListTile(
-              onTap: () {
-                navigatorKey.currentState!.pushNamed('/ProfileCook');
-              },
-              minVerticalPadding: 0,
-              contentPadding: EdgeInsets.zero,
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: config.AppConfig(context).appWidth(3),
+            right: config.AppConfig(context).appWidth(3),
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: config.AppConfig(context).appHeight(5),
+              ),
+              Row(
                 children: [
-                  Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(
-                          'assets/img/background.svg',
-                          height: config.AppConfig(context).appHeight(4.5),
-                        ),
+                  InkWell(
+                    onTap: () {
+                      navigatorKey.currentState!.pop();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: config.AppConfig(context).appWidth(5),
+                        color: Theme.of(context).primaryColorDark,
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        widthFactor: 2,
-                        child: SvgPicture.asset(
-                          'assets/img/edit.svg',
-                          height: config.AppConfig(context).appHeight(2),
+                    ),
+                  ),
+                  SizedBox(
+                    width: config.AppConfig(context).appWidth(2),
+                  ),
+                  Text(
+                    'Settings',
+                    style: GoogleFonts.gothicA1(
+                        color: Theme.of(context).primaryColorDark,
+                        fontSize: config.AppConfig(context).appWidth(6),
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: config.AppConfig(context).appHeight(3),
+              ),
+              ListTile(
+                onTap: () {
+                  navigatorKey.currentState!.pushNamed('/ProfileCook');
+                },
+                minVerticalPadding: 0,
+                contentPadding: EdgeInsets.zero,
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            'assets/img/background.svg',
+                            height: config.AppConfig(context).appHeight(4.5),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: config.AppConfig(context).appWidth(4),
-                  ),
-                  Text(
-                    'Edit profile',
-                    style: GoogleFonts.gothicA1(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: config.AppConfig(context).appWidth(4.5),
-                        fontWeight: FontWeight.w400),
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-              trailing: Icon(
-                Icons.arrow_forward,
-                size: config.AppConfig(context).appWidth(6),
-                color: Theme.of(context).primaryColorDark,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                // navigatorKey.currentState!.pushNamed('/SettingsCook');
-              },
-              minVerticalPadding: 0,
-              contentPadding: EdgeInsets.zero,
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/img/notification.svg',
-                  ),
-                  SizedBox(
-                    width: config.AppConfig(context).appWidth(4),
-                  ),
-                  Text(
-                    'Notification',
-                    style: GoogleFonts.gothicA1(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: config.AppConfig(context).appWidth(4.5),
-                        fontWeight: FontWeight.w400),
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-              trailing: Container(
-                width: config.AppConfig(context).appWidth(18),
-                child: FlutterSwitch(
-                  value: true,
-                  activeText: '',
-                  inactiveText: '',
-                  valueFontSize: config.AppConfig(context).appWidth(4),
-                  width: config.AppConfig(context).appWidth(13.8),
-                  height: config.AppConfig(context).appHeight(3.8),
-                  inactiveColor: Theme.of(context).primaryColorDark,
-                  borderRadius: 30.0,
-                  showOnOff: true,
-                  onToggle: (val) {},
+                        Align(
+                          alignment: Alignment.center,
+                          widthFactor: 2,
+                          child: SvgPicture.asset(
+                            'assets/img/edit.svg',
+                            height: config.AppConfig(context).appHeight(2),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: config.AppConfig(context).appWidth(4),
+                    ),
+                    Text(
+                      'Edit profile',
+                      style: GoogleFonts.gothicA1(
+                          color: Theme.of(context).primaryColorDark,
+                          fontSize: config.AppConfig(context).appWidth(4.5),
+                          fontWeight: FontWeight.w400),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward,
+                  size: config.AppConfig(context).appWidth(6),
+                  color: Theme.of(context).primaryColorDark,
                 ),
               ),
-            ),
-            ListTile(
-              onTap: () {
-                // navigatorKey.currentState!.pushNamed('/SettingsCook');
-              },
-              minVerticalPadding: 0,
-              contentPadding: EdgeInsets.zero,
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/img/delete.svg',
+              ListTile(
+                onTap: () {
+                  // navigatorKey.currentState!.pushNamed('/SettingsCook');
+                },
+                minVerticalPadding: 0,
+                contentPadding: EdgeInsets.zero,
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/img/notification.svg',
+                    ),
+                    SizedBox(
+                      width: config.AppConfig(context).appWidth(4),
+                    ),
+                    Text(
+                      'Notification',
+                      style: GoogleFonts.gothicA1(
+                          color: Theme.of(context).primaryColorDark,
+                          fontSize: config.AppConfig(context).appWidth(4.5),
+                          fontWeight: FontWeight.w400),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+                trailing: Container(
+                  width: config.AppConfig(context).appWidth(18),
+                  child: FlutterSwitch(
+                    value: true,
+                    activeText: '',
+                    inactiveText: '',
+                    valueFontSize: config.AppConfig(context).appWidth(4),
+                    width: config.AppConfig(context).appWidth(13.8),
+                    height: config.AppConfig(context).appHeight(3.8),
+                    inactiveColor: Theme.of(context).primaryColorDark,
+                    borderRadius: 30.0,
+                    showOnOff: true,
+                    onToggle: (val) {},
                   ),
-                  SizedBox(
-                    width: config.AppConfig(context).appWidth(4),
-                  ),
-                  Text(
-                    'Delete Account',
-                    style: GoogleFonts.gothicA1(
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: config.AppConfig(context).appWidth(4.5),
-                        fontWeight: FontWeight.w400),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                ),
               ),
-              trailing: Icon(
-                Icons.arrow_forward,
-                size: config.AppConfig(context).appWidth(6),
-                color: Theme.of(context).primaryColorDark,
+              ListTile(
+                onTap: () {
+                  // navigatorKey.currentState!.pushNamed('/SettingsCook');
+                },
+                minVerticalPadding: 0,
+                contentPadding: EdgeInsets.zero,
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/img/delete.svg',
+                    ),
+                    SizedBox(
+                      width: config.AppConfig(context).appWidth(4),
+                    ),
+                    Text(
+                      'Delete Account',
+                      style: GoogleFonts.gothicA1(
+                          color: Theme.of(context).primaryColorDark,
+                          fontSize: config.AppConfig(context).appWidth(4.5),
+                          fontWeight: FontWeight.w400),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward,
+                  size: config.AppConfig(context).appWidth(6),
+                  color: Theme.of(context).primaryColorDark,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
