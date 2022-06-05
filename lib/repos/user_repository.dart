@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import '../model/user_model.dart';
 
 final navigatorKeyHome = GlobalKey<NavigatorState>();
 
 class UserRepository {
   UserModel? user;
-
 
   Future<UserModel?> getUser() async {
     var prefs = await SharedPreferences.getInstance();
@@ -70,6 +70,27 @@ class UserRepository {
     return user;
   }
 
+  Future<dynamic?> getCookProfile() async {
+    try {
+      final url =
+          '${GlobalConfiguration().getValue<String>('api_base_url')}getprofile';
 
+      print(url);
+      print(user!.data!.accessToken);
+      final client = http.Client();
 
+      final response = await client.get(
+        Uri.parse(url),
+        headers: {"Authorization": "Bearer ${user!.data!.accessToken}"},
+      );
+
+      print('response ${response.body}');
+      if (response.statusCode == 200) {
+        return response;
+      }
+      return response;
+    } catch (e) {
+      print('exception $e');
+    }
+  }
 }

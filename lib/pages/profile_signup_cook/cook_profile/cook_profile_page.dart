@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/helper/route_arguement.dart';
-import 'package:mitabl_user/pages/profile/cook_profile/element/timing_dialog.dart';
+import 'package:mitabl_user/pages/profile_signup_cook/cook_profile/element/timing_dialog.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
 import 'cubit/cook_profile_cubit.dart';
@@ -31,11 +31,11 @@ class CookProfilePage extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() => _OTPPage();
+  State<StatefulWidget> createState() => _CookProfilePage();
 }
 
-class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
-  _OTPPage();
+class _CookProfilePage extends State<CookProfilePage> with TickerProviderStateMixin {
+  _CookProfilePage();
 
   PickedFile? _imageFile;
 
@@ -309,7 +309,7 @@ class _OTPPage extends State<CookProfilePage> with TickerProviderStateMixin {
 }
 
 class _Timing extends StatefulWidget {
-  final _OTPPage? loginForm;
+  final _CookProfilePage? loginForm;
 
   const _Timing({Key? key, this.loginForm}) : super(key: key);
 
@@ -407,7 +407,7 @@ class _TimingState extends State<_Timing> {
 }
 
 class _KitchenName extends StatefulWidget {
-  final _OTPPage? loginForm;
+  final _CookProfilePage? loginForm;
 
   const _KitchenName({Key? key, this.loginForm}) : super(key: key);
 
@@ -485,7 +485,7 @@ class _KitchenNameState extends State<_KitchenName> {
 }
 
 class _NoOfSeats extends StatefulWidget {
-  final _OTPPage? loginForm;
+  final _CookProfilePage? loginForm;
 
   const _NoOfSeats({Key? key, this.loginForm}) : super(key: key);
 
@@ -561,7 +561,7 @@ class _NoOfSeatsState extends State<_NoOfSeats> {
 }
 
 class _PhoneNo extends StatefulWidget {
-  final _OTPPage? loginForm;
+  final _CookProfilePage? loginForm;
 
   const _PhoneNo({Key? key, this.loginForm}) : super(key: key);
 
@@ -640,7 +640,7 @@ class _PhoneNoState extends State<_PhoneNo> {
 class _UploadButton extends StatefulWidget {
   const _UploadButton({Key? key, this.loginForm}) : super(key: key);
 
-  final _OTPPage? loginForm;
+  final _CookProfilePage? loginForm;
 
   @override
   _UploadbuttonState createState() => _UploadbuttonState();
@@ -747,7 +747,7 @@ class _UploadbuttonState extends State<_UploadButton> {
       if (picture!.path != null) {
         print('path ${picture.path}');
         context.read<CookProfileCubit>().onNewImageAdded(path: picture.path);
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           widget.loginForm!.controller!
               .jumpTo(widget.loginForm!.controller!.position.maxScrollExtent);
         });
@@ -767,7 +767,7 @@ class _UploadbuttonState extends State<_UploadButton> {
       if (picture!.path != null) {
         print('path ${picture.path}');
         context.read<CookProfileCubit>().onNewImageAdded(path: picture.path);
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           widget.loginForm!.controller!
               .jumpTo(widget.loginForm!.controller!.position.maxScrollExtent);
         });
@@ -783,7 +783,7 @@ class _UploadbuttonState extends State<_UploadButton> {
 }
 
 class _LoginButton extends StatelessWidget {
-  final _OTPPage? loginForm;
+  final _CookProfilePage? loginForm;
 
   const _LoginButton({Key? key, this.loginForm}) : super(key: key);
 

@@ -5,7 +5,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
-import 'package:mitabl_user/pages/profile/cook_profile/cubit/cook_profile_cubit.dart';
+import 'package:mitabl_user/pages/profile_signup_cook/cook_profile/cubit/cook_profile_cubit.dart';
 
 class TimingDialog extends StatelessWidget {
   TimingDialog({Key? key}) : super(key: key);
@@ -26,8 +26,8 @@ class TimingDialog extends StatelessWidget {
             height: config.AppConfig(context).appHeight(70),
             width: config.AppConfig(context).appWidth(90),
             padding: EdgeInsets.only(
-                left: config.AppConfig(context).appWidth(5),
-                right: config.AppConfig(context).appWidth(5)),
+                left: config.AppConfig(context).appWidth(2),
+                right: config.AppConfig(context).appWidth(2)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,6 +70,7 @@ class TimingDialog extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                             fontSize: config.AppConfig(context).appWidth(4),
                             fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.left,
                       ),
                     )
                   ],
@@ -117,7 +118,7 @@ class TimingDialog extends StatelessWidget {
                                 ),
                                 // Spacer(),
                                 SizedBox(
-                                  width: config.AppConfig(context).appWidth(6),
+                                  width: config.AppConfig(context).appWidth(2),
                                 ),
                                 Expanded(
                                     flex: 2,
@@ -142,6 +143,7 @@ class TimingDialog extends StatelessWidget {
                                                     use24hFormat: false,
                                                     onDateTimeChanged:
                                                         (DateTime newTime) {
+
                                                       context
                                                           .read<
                                                               CookProfileCubit>()
@@ -149,8 +151,8 @@ class TimingDialog extends StatelessWidget {
                                                               index: index,
                                                               startTime: DateFormat(
                                                                       'hh:mm a')
-                                                                  .format(DateTime
-                                                                      .now()));
+                                                                  .format(
+                                                                      newTime));
                                                     },
                                                   ),
                                                   context);
@@ -186,7 +188,8 @@ class TimingDialog extends StatelessWidget {
                                               ),
                                             )),
                                         SizedBox(
-                                          width: config.AppConfig(context).appWidth(1),
+                                          width: config.AppConfig(context)
+                                              .appWidth(1),
                                         ),
                                         Text(
                                           'To',
@@ -198,7 +201,8 @@ class TimingDialog extends StatelessWidget {
                                                       .appWidth(4)),
                                         ),
                                         SizedBox(
-                                          width: config.AppConfig(context).appWidth(1),
+                                          width: config.AppConfig(context)
+                                              .appWidth(1),
                                         ),
                                         InkWell(
                                             onTap: () {
@@ -224,8 +228,8 @@ class TimingDialog extends StatelessWidget {
                                                               index: index,
                                                               endTime: DateFormat(
                                                                       'hh:mm a')
-                                                                  .format(DateTime
-                                                                      .now()));
+                                                                  .format(
+                                                                      newTime));
                                                     },
                                                   ),
                                                   context);

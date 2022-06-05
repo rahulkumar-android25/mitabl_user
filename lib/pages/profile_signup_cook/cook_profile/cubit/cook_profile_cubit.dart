@@ -28,7 +28,7 @@ class CookProfileCubit extends Cubit<CookProfileState> {
       daysTiming.add(Days(
           day: element.toString(),
           isOn: false,
-          timing: Timing(endTime: '9:00 AM', startTime: '9:00 PM')));
+          timing: Timing(endTime: '09:00 AM', startTime: '09:00 PM')));
     });
 
     emit(state.copyWith(daysTiming: daysTiming));
@@ -46,6 +46,7 @@ class CookProfileCubit extends Cubit<CookProfileState> {
       daysTiming.insert(index, days);
       emit(state.copyWith(daysTiming: daysTiming));
     } else if (startTime != null) {
+
       timing = daysTiming[index!].timing;
 
       days = daysTiming[index]
@@ -100,7 +101,7 @@ class CookProfileCubit extends Cubit<CookProfileState> {
       map['no_of_seats'] = state.noOfSeats.value;
       map['phone'] = state.phone.value;
       map['user_id'] = routeArguments!.data!.user!.id;
-
+      map['timings']= jsonEncode(TimingModel(days: state.daysTiming));
       print('mapppss ${map.toString()}');
 
       var response = await authenticationRepository!.vendorKitchnUpload(

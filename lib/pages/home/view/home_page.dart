@@ -8,8 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/helper.dart';
 import 'package:mitabl_user/pages/home/cubit/home_cubit.dart';
+import 'package:mitabl_user/pages_cook/dashboard_cook/view/dashboard_cook_page.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 import 'package:mitabl_user/repos/user_repository.dart';
+
+import '../../../helper/appconstants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -47,39 +50,42 @@ class _HomePage extends State<HomePage> with TickerProviderStateMixin {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return Scaffold(
       body: BlocConsumer<HomeCubit, HomeState>(builder: (context, state) {
-        return Container(
-          alignment: Alignment.center,
-          color: Colors.white,
-          height: config.AppConfig(context).appHeight(100),
-          width: config.AppConfig(context).appWidth(100),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: config.AppConfig(context).appHeight(2),
-                  left: config.AppConfig(context).appWidth(5),
-                  right: config.AppConfig(context).appWidth(5)),
-              child: Container(
+        return context.read<UserRepository>().user!.data!.user!.role ==
+                AppConstants.COOK.toString()
+            ? Container(
                 alignment: Alignment.center,
-                width: config.AppConfig(context).appWidth(90),
-                child: Padding(
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                color: Colors.white,
+                height: config.AppConfig(context).appHeight(100),
+                width: config.AppConfig(context).appWidth(100),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: config.AppConfig(context).appHeight(2),
+                        left: config.AppConfig(context).appWidth(5),
+                        right: config.AppConfig(context).appWidth(5)),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: config.AppConfig(context).appWidth(90),
+                      child: Padding(
+                        padding: EdgeInsets.zero,
+                        child: Column(
                           children: [
-                            _LoginButton(
-                              loginForm: this,
-                            ),
-                          ]),
-                    ],
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _LoginButton(
+                                    loginForm: this,
+                                  ),
+                                ]),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        );
+              )
+            : const DashBoardCookPage();
       }, listener: (context, state) async {
         print('status form ${state.status}');
         if (state.status!.isSubmissionFailure) {

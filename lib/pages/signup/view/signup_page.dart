@@ -10,6 +10,7 @@ import 'package:mitabl_user/helper/appconstants.dart';
 import 'package:mitabl_user/pages/login/cubit/login_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 
+import '../../../helper/route_arguement.dart';
 import '../cubit/sign_up_cubit.dart';
 
 class SignupPage extends StatefulWidget {
@@ -1004,9 +1005,11 @@ class _LoginButton extends StatelessWidget {
                     minWidth: config.AppConfig(context).appWidth(100),
                     height: 50.0,
                     onPressed: () {
-                      //
-                      // navigatorKey.currentState!.popAndPushNamed('/OTPPage');
-                      // return;
+
+                      // navigatorKey.currentState!.popAndPushNamed('/OTPPage',
+                      //     arguments: RouteArguments(
+                      //         id: '1',
+                      //         role: 1));
                       if (state.status!.isValidated) {
                         context.read<SignUpCubit>().onSignUp();
                       }

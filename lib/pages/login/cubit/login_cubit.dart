@@ -55,6 +55,7 @@ class LoginCubit extends Cubit<LoginState> {
       Response response = await _authenticationRepository.logIn(data: map);
 
       if (response.statusCode == 200) {
+        print(response.body);
         UserModel userModel = UserModel.fromJson(jsonDecode(response.body));
         userRepository.setCurrentUser(response.body).then((value) async {
           SharedPreferences prefs = await SharedPreferences.getInstance();

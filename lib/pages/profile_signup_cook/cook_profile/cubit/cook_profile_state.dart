@@ -22,7 +22,7 @@ class CookProfileState extends Equatable {
   final FormzStatus? statusApi;
   final String? serverMessage;
   final List<String> pathFiles;
-  final List<String> days;
+  final List<String>? days;
   final List<Days> daysTiming;
 
   CookProfileState copyWith(

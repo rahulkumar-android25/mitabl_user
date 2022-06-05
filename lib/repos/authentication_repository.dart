@@ -51,7 +51,7 @@ class AuthenticationRepository {
           'Content-Type': 'application/json',
         },
         body: json.encode(data));
-
+    print(response.body);
     if (response.statusCode == 200) {
       return response;
     }
@@ -202,8 +202,8 @@ class AuthenticationRepository {
         'name': '${data['name']}',
         'address': '${data['address']}',
         'no_of_seats': '${data['no_of_seats']}',
-        'timings':
-            '{\n    \'mon\':{\n        \'isOn\':1,\n        \'timing\': {\n            \'start_time\': \'07:00\',\n            \'end_time\': \'08:00\',\n        }\n    },\n    \'tue\':1,\n    \'wed\':1\n}',
+        'timings': data['timings'],
+        // '{\n    \'mon\':{\n        \'isOn\':1,\n        \'timing\': {\n            \'start_time\': \'07:00\',\n            \'end_time\': \'08:00\',\n        }\n    },\n    \'tue\':1,\n    \'wed\':1\n}',
         'phone': '${data['phone']}',
         'user_id': '${data['user_id']}'
       });

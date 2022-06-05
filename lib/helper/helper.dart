@@ -17,11 +17,6 @@ class Helper {
     this.context = _context;
   }
 
-  // for mapping data retrieved form json array
-  // static getData(Map<String, dynamic> data) {
-  //   return data['data'] ?? [];
-  // }
-
   static int getIntData(Map<String, dynamic> data) {
     return (data['data'] as int?) ?? 0;
   }

@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/helper/appconstants.dart';
 import 'package:mitabl_user/helper/route_arguement.dart';
+import 'package:mitabl_user/model/otp_response.dart';
 import 'package:mitabl_user/pages/otp/cubit/otp_cubit.dart';
 
 import 'package:mitabl_user/repos/authentication_repository.dart';
@@ -191,6 +192,10 @@ class _SubmitButton extends StatelessWidget {
                   minWidth: config.AppConfig(context).appWidth(100),
                   height: 50.0,
                   onPressed: () {
+                    // navigatorKey.currentState!.popAndPushNamed('/CookProfile',
+                    //     arguments: RouteArguments(data: OTPResponse()));
+
+
                     if (state.status!.isValidated) {
                     context.read<OtpCubit>().onSubmitted();
                     }
