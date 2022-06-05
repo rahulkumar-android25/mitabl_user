@@ -6,6 +6,7 @@ class AppConstants {
   static const String YEARSEMESTER_CURRENT = 'current_year_semester';
   static const int FOODI = 2;
   static const int COOK = 3;
+  static const String IS_COOK = 'Restaurant';
   static const List<String> DAYS = [
     'Mon',
     'Tue',

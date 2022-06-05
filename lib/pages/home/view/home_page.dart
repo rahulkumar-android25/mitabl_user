@@ -51,41 +51,41 @@ class _HomePage extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       body: BlocConsumer<HomeCubit, HomeState>(builder: (context, state) {
         return context.read<UserRepository>().user!.data!.user!.role ==
-                AppConstants.COOK.toString()
-            ? Container(
+                AppConstants.IS_COOK.toString()
+            ?  const DashBoardCookPage()
+            :Container(
+          alignment: Alignment.center,
+          color: Colors.white,
+          height: config.AppConfig(context).appHeight(100),
+          width: config.AppConfig(context).appWidth(100),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: config.AppConfig(context).appHeight(2),
+                  left: config.AppConfig(context).appWidth(5),
+                  right: config.AppConfig(context).appWidth(5)),
+              child: Container(
                 alignment: Alignment.center,
-                color: Colors.white,
-                height: config.AppConfig(context).appHeight(100),
-                width: config.AppConfig(context).appWidth(100),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        top: config.AppConfig(context).appHeight(2),
-                        left: config.AppConfig(context).appWidth(5),
-                        right: config.AppConfig(context).appWidth(5)),
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: config.AppConfig(context).appWidth(90),
-                      child: Padding(
-                        padding: EdgeInsets.zero,
-                        child: Column(
+                width: config.AppConfig(context).appWidth(90),
+                child: Padding(
+                  padding: EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _LoginButton(
-                                    loginForm: this,
-                                  ),
-                                ]),
-                          ],
-                        ),
-                      ),
-                    ),
+                            _LoginButton(
+                              loginForm: this,
+                            ),
+                          ]),
+                    ],
                   ),
                 ),
-              )
-            : const DashBoardCookPage();
+              ),
+            ),
+          ),
+        );
       }, listener: (context, state) async {
         print('status form ${state.status}');
         if (state.status!.isSubmissionFailure) {
