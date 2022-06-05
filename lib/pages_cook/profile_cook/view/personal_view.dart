@@ -35,7 +35,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
             ),
             CachedNetworkImage(
               imageUrl:
-                  "${GlobalConfiguration().getValue<String>('base_url')}/${state.cookProfile!.data!.avatar}",
+                  "${GlobalConfiguration().getValue<String>('base_url')}/${state.cookProfile != null ? state.cookProfile!.data!.avatar : ''}",
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                   CircularProgressIndicator(value: downloadProgress.progress),
               errorWidget: (context, url, error) => Container(
@@ -71,7 +71,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '${state.cookProfile!.data!.firstName} ${state.cookProfile!.data!.lastName}',
+                  '${state.cookProfile != null ? state.cookProfile!.data!.firstName : ''} ${state.cookProfile != null ? state.cookProfile!.data!.lastName : ''}',
                   style: GoogleFonts.gothicA1(
                       color: Theme.of(context).primaryColorDark,
                       fontSize: config.AppConfig(context).appWidth(5),
@@ -82,7 +82,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
                   height: config.AppConfig(context).appHeight(1),
                 ),
                 Text(
-                  '${state.cookProfile!.data!.email}',
+                  '${state.cookProfile != null ? state.cookProfile!.data!.email : ''}',
                   style: GoogleFonts.gothicA1(
                       color: Color(0xffAEAEAE),
                       fontSize: config.AppConfig(context).appWidth(3.5),
@@ -93,7 +93,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
                   height: config.AppConfig(context).appHeight(0.5),
                 ),
                 Text(
-                  '${state.cookProfile!.data!.phone}',
+                  '${state.cookProfile != null ? state.cookProfile!.data!.phone : ''}',
                   style: GoogleFonts.gothicA1(
                       color: Color(0xffAEAEAE),
                       fontSize: config.AppConfig(context).appWidth(3.5),
@@ -104,7 +104,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
                   height: config.AppConfig(context).appHeight(3),
                 ),
                 Text(
-                  '${state.cookProfile!.data!.description}',
+                  '${state.cookProfile != null ? state.cookProfile!.data!.description : ''}',
                   style: GoogleFonts.gothicA1(
                       color: Theme.of(context).primaryColorDark,
                       fontSize: config.AppConfig(context).appWidth(4),

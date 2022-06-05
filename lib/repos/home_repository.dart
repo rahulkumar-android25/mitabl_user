@@ -13,7 +13,7 @@ class HomeRepository {
       {required Map<String, dynamic> data,
       required UserModel? userModel}) async {
     final url =
-        '${GlobalConfiguration().getValue<String>('api_base_url')}v1/topRatedRestaurant?page=1&limit=2';
+        '${GlobalConfiguration().getValue<String>('api_base_url')}v1/topRatedRestaurant?page=1&limit=20';
 
     var headers = {
       'Authorization': 'Bearer ${userModel!.data!.accessToken}',
@@ -36,7 +36,7 @@ class HomeRepository {
       {required Map<String, dynamic> data,
       required UserModel? userModel}) async {
     final url =
-        '${GlobalConfiguration().getValue<String>('api_base_url')}v1/nearestRestaurant?page=1&limit=2';
+        '${GlobalConfiguration().getValue<String>('api_base_url')}v1/nearestRestaurant?page=1&limit=20';
 
     var headers = {
       'Authorization': 'Bearer ${userModel!.data!.accessToken}',

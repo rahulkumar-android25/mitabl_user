@@ -13,6 +13,10 @@ import '../cubit/dashboard_cook_cubit.dart';
 class DashBoardCookPage extends StatefulWidget {
   const DashBoardCookPage({Key? key}) : super(key: key);
 
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => DashBoardCookPage());
+  }
+
   @override
   State<DashBoardCookPage> createState() => _DashBoardCookPageState();
 }
@@ -24,7 +28,6 @@ class _DashBoardCookPageState extends State<DashBoardCookPage> {
     Text('Requests'),
     ProfileCookPage(),
   ];
-
 
   @override
   void initState() {

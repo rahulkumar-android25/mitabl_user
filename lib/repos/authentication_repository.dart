@@ -38,6 +38,7 @@ class AuthenticationRepository {
     required Map<String, dynamic> data,
   }) async {
     // try {
+
     final url =
         '${GlobalConfiguration().getValue<String>('api_base_url')}login';
 

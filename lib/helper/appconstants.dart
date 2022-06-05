@@ -4,8 +4,8 @@ class AppConstants {
   static const double DATA_ROW_HEIGHT = 28;
 
   static const String YEARSEMESTER_CURRENT = 'current_year_semester';
-  static const int FOODI = 2;
-  static const int COOK = 3;
+  static const int FOODI = 3;
+  static const int COOK = 2;
   static const String IS_COOK = 'Restaurant';
   static const List<String> DAYS = [
     'Mon',

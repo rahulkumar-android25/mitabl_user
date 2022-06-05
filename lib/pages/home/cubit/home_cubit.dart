@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:mitabl_user/helper/helper.dart';
+import 'package:mitabl_user/model/near_by_restaurants_response.dart';
+import 'package:mitabl_user/model/top_rated_rest_response.dart';
 import 'package:mitabl_user/model/user_model.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
 import 'package:mitabl_user/repos/home_repository.dart';
@@ -29,7 +31,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void onTopratedRestaurants() async {
     try {
-      emit(state.copyWith(statusApi: FormzStatus.submissionInProgress));
+      emit(state.copyWith(statusTopRes: FormzStatus.submissionInProgress));
       UserModel? userModel = await userRepository.getUser();
 
       print(userModel!.data!.accessToken);
@@ -43,20 +45,18 @@ class HomeCubit extends Cubit<HomeState> {
       Response response = await new HomeRepository()
           .topRatedRestaurants(data: map, userModel: userModel);
       if (response.statusCode == 200) {
-        jsonDecode(response.body);
+        TopReatedRestResponse topReatedRestResponse =
+            new TopReatedRestResponse.fromJson(jsonDecode(response.body));
 
-        emit(state.copyWith(statusApi: FormzStatus.submissionSuccess));
-        Helper.showToast('Success');
-        // navigatorKey.currentState!.popAndPushNamed(
-        //   '/HomePage',
-        // );
+        emit(state.copyWith(
+            statusTopRes: FormzStatus.submissionSuccess,
+            topReatedRestResponse: topReatedRestResponse));
       } else {
-        jsonDecode(response.body);
         Helper.showToast('Something went wrong...');
-        emit(state.copyWith(statusApi: FormzStatus.submissionFailure));
+        emit(state.copyWith(statusTopRes: FormzStatus.submissionFailure));
       }
     } on Exception catch (e) {
-      emit(state.copyWith(statusApi: FormzStatus.submissionFailure));
+      emit(state.copyWith(statusTopRes: FormzStatus.submissionFailure));
       Helper.showToast('Something went wrong...');
     }
   }
@@ -79,10 +79,12 @@ class HomeCubit extends Cubit<HomeState> {
       Response response = await new HomeRepository()
           .nearByRestaurants(data: map, userModel: userModel);
       if (response.statusCode == 200) {
-        jsonDecode(response.body);
+        NearByRestaurantsResponse nearByResp =
+            new NearByRestaurantsResponse.fromJson(jsonDecode(response.body));
 
-        emit(state.copyWith(statusApi: FormzStatus.submissionSuccess));
-        Helper.showToast('Success');
+        emit(state.copyWith(
+            statusApi: FormzStatus.submissionSuccess,
+            nearByRestaurants: nearByResp));
         // navigatorKey.currentState!.popAndPushNamed(
         //   '/HomePage',
         // );
@@ -113,10 +115,6 @@ class HomeCubit extends Cubit<HomeState> {
             serverMessage: jsonDecode(response.body)['message']));
         _authenticationRepository.logOut();
       } else {
-        // emit(state.copyWith(
-        //     status: FormzStatus.submissionFailure,
-        //     serverMessage: 'Something went wrong...'));
-
         emit(state.copyWith(
           status: FormzStatus.pure,
         ));

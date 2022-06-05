@@ -7,6 +7,7 @@ import 'package:mitabl_user/pages/login/view/login_page.dart';
 import 'package:mitabl_user/pages/otp/view/otp_page.dart';
 import 'package:mitabl_user/pages/profile_signup_cook/cook_profile/cook_profile_page.dart';
 import 'package:mitabl_user/pages/signup/view/signup_page.dart';
+import 'package:mitabl_user/pages_cook/dashboard_cook/view/dashboard_cook_page.dart';
 import 'package:mitabl_user/pages_cook/edit_profile_cook/view/edit_profile_cook_page.dart';
 import 'package:mitabl_user/pages_cook/settings_page/view/settings_page_cook.dart';
 import 'package:mitabl_user/splash.dart';
@@ -47,6 +48,9 @@ class RouteGenerator {
 
       case '/ProfileCook':
         return EditProfileCookPage.route();
+
+      case '/DashboardCook':
+        return DashBoardCookPage.route();
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

@@ -113,8 +113,10 @@ class CookProfileCubit extends Cubit<CookProfileState> {
 
         emit(state.copyWith(statusApi: FormzStatus.submissionSuccess));
         Helper.showToast('Success');
-        navigatorKey.currentState!.popAndPushNamed(
-          '/HomePage',
+
+        navigatorKey.currentState!.pushNamedAndRemoveUntil(
+          '/DashboardCook',
+          (route) => false,
         );
       } else {
         Helper.showToast('Something went wrong...');
