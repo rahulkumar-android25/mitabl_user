@@ -37,7 +37,7 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePage();
 }
 
-class _HomePage extends State<HomePage> with TickerProviderStateMixin {
+class _HomePage extends State<HomePage>  {
   _HomePage();
 
   UserModel? userModel;
@@ -52,7 +52,7 @@ class _HomePage extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 0.4;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return context.read<UserRepository>().user != null
         && context.read<UserRepository>().user!.data!.user!.role ==

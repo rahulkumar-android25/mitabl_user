@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitabl_user/auth_bloc/authentication/authentication_bloc.dart';
 import 'package:mitabl_user/helper/app_config.dart' as config;
 import 'package:mitabl_user/pages/home/cubit/home_cubit.dart';
+import 'package:mitabl_user/pages_cook/dashboard_cook/cubit/dashboard_cook_cubit.dart';
 import 'package:mitabl_user/pages_cook/profile_cook/cubit/profile_cook_cubit.dart';
 import 'package:mitabl_user/pages_cook/profile_cook/cubit/profile_cook_cubit.dart';
 import 'package:mitabl_user/repos/authentication_repository.dart';
@@ -104,7 +105,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
                   height: config.AppConfig(context).appHeight(3),
                 ),
                 Text(
-                  '${state.cookProfile != null ? state.cookProfile!.data!.description : ''}',
+                  state.cookProfile != null ? state.cookProfile!.data!.description??'' : '',
                   style: GoogleFonts.gothicA1(
                       color: Theme.of(context).primaryColorDark,
                       fontSize: config.AppConfig(context).appWidth(4),
@@ -244,7 +245,7 @@ class _PersonalTabViewState extends State<PersonalTabView> {
                     ),
                     ListTile(
                       onTap: () {
-                        context.read<HomeCubit>().doLogout();
+                        context.read<DashboardCookCubit>().doLogout();
                       },
                       minVerticalPadding: 0,
                       contentPadding: EdgeInsets.zero,

@@ -300,10 +300,10 @@ class _CookProfilePage extends State<CookProfilePage>
           ),
         );
       }, listener: (context, state) async {
-        if (state.statusApi!.isSubmissionFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
-        }
+       // if (state.statusApi!.isSubmissionFailure) {
+          // ScaffoldMessenger.of(context)
+          //     .showSnackBar(SnackBar(content: Text('${state.serverMessage}')));
+        //}
       }),
     );
   }

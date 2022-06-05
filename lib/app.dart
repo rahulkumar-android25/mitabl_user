@@ -47,6 +47,7 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (_) => DashboardCookCubit(
               userRepository: userRepository,
+              authenticationRepository: authenticationRepository,
             ),
           ),
           BlocProvider(

@@ -46,7 +46,6 @@ class CookProfileCubit extends Cubit<CookProfileState> {
       daysTiming.insert(index, days);
       emit(state.copyWith(daysTiming: daysTiming));
     } else if (startTime != null) {
-
       timing = daysTiming[index!].timing;
 
       days = daysTiming[index]
@@ -101,13 +100,14 @@ class CookProfileCubit extends Cubit<CookProfileState> {
       map['no_of_seats'] = state.noOfSeats.value;
       map['phone'] = state.phone.value;
       map['user_id'] = routeArguments!.data!.user!.id;
-      map['timings']= jsonEncode(TimingModel(days: state.daysTiming));
+      map['timings'] = jsonEncode(TimingModel(days: state.daysTiming));
       print('mapppss ${map.toString()}');
 
       var response = await authenticationRepository!.vendorKitchnUpload(
           data: map,
           routeArguments: routeArguments,
           filePaths: state.pathFiles);
+      print('response cubit ${response.body}');
       if (response.statusCode == 200) {
         jsonDecode(response.body);
 
@@ -119,8 +119,10 @@ class CookProfileCubit extends Cubit<CookProfileState> {
           (route) => false,
         );
       } else {
-        Helper.showToast('Something went wrong...');
-        emit(state.copyWith(statusApi: FormzStatus.submissionFailure));
+        Helper.showToast(jsonDecode(response.body)['isError']);
+        emit(state.copyWith(
+            statusApi: FormzStatus.submissionFailure,
+             ));
       }
     } on Exception catch (e) {
       emit(state.copyWith(statusApi: FormzStatus.submissionFailure));

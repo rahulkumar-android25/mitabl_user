@@ -40,7 +40,9 @@ class OtpCubit extends Cubit<OtpState> {
         OTPResponse otpResponse =
             OTPResponse.fromJson(jsonDecode(response.body));
         UserModel userModel = UserModel.fromJson(jsonDecode(response.body));
-        await userRepository!.setCurrentUser(response.body);
+        await userRepository!.setCurrentUser(response.body).then((value) async{
+          await userRepository!.getUser();
+        });
         emit(state.copyWith(statusAPI: FormzStatus.submissionSuccess));
 
         Helper.showToast('Success');
