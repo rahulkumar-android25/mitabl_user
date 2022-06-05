@@ -54,11 +54,11 @@ class _HomePage extends State<HomePage>  {
   Widget build(BuildContext context) {
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    return context.read<UserRepository>().user != null
+    return /*context.read<UserRepository>().user != null
         && context.read<UserRepository>().user!.data!.user!.role ==
                 AppConstants.IS_COOK.toString()
             ? const DashBoardCookPage()
-            : Scaffold(
+            :*/ Scaffold(
                 appBar: AppBar(
                   title: Text(
                     'Hello, ${context.read<UserRepository>().user != null ?context.read<UserRepository>().user!.data!.user!.name:''}',

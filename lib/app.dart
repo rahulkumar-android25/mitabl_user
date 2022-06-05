@@ -12,6 +12,7 @@ import 'package:mitabl_user/route_generator.dart';
 
 import 'auth_bloc/authentication/authentication_bloc.dart';
 import 'helper/app_config.dart' as config;
+import 'helper/appconstants.dart';
 
 class App extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
@@ -96,10 +97,12 @@ class _AppViewState extends State<AppView> {
               print('checkStatus ${state.status}');
               switch (state.status) {
                 case AuthenticationStatus.authenticated:
-                  // _navigator!.pushNamedAndRemoveUntil(
-                  //     '/DashboardPage', (route) => false);
-                  _navigator!
-                      .pushNamedAndRemoveUntil('/HomePage', (route) => false);
+                  state.user!.data!.user!.role ==
+                          AppConstants.IS_COOK.toString()
+                      ? _navigator!.pushNamedAndRemoveUntil(
+                          '/DashboardCook', (route) => false)
+                      : _navigator!.pushNamedAndRemoveUntil(
+                          '/HomePage', (route) => false);
                   break;
 
                 case AuthenticationStatus.unauthenticated:
