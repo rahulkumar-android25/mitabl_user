@@ -12,6 +12,7 @@ import 'package:mitabl_user/model/otp_response.dart';
 import 'package:mitabl_user/pages/otp/cubit/otp_cubit.dart';
 
 import 'package:mitabl_user/repos/authentication_repository.dart';
+import 'package:mitabl_user/repos/user_repository.dart';
 import 'package:pinput/pinput.dart';
 import 'package:formz/formz.dart';
 
@@ -24,7 +25,9 @@ class OTPPage extends StatefulWidget {
     return MaterialPageRoute<void>(
         builder: (_) => BlocProvider(
               create: (context) => OtpCubit(
-                  context.read<AuthenticationRepository>(), routeArguments),
+                  context.read<AuthenticationRepository>(),
+                  context.read<UserRepository>(),
+                  routeArguments),
               child: OTPPage(),
             ));
     // );
@@ -195,9 +198,8 @@ class _SubmitButton extends StatelessWidget {
                     // navigatorKey.currentState!.popAndPushNamed('/CookProfile',
                     //     arguments: RouteArguments(data: OTPResponse()));
 
-
                     if (state.status!.isValidated) {
-                    context.read<OtpCubit>().onSubmitted();
+                      context.read<OtpCubit>().onSubmitted();
                     }
                   }),
         );

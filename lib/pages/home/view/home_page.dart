@@ -61,7 +61,7 @@ class _HomePage extends State<HomePage> with TickerProviderStateMixin {
             : Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    'Hello, ${context.read<UserRepository>().user!.data!.user!.name}',
+                    'Hello, ${context.read<UserRepository>().user != null ?context.read<UserRepository>().user!.data!.user!.name:''}',
                     style: GoogleFonts.gothicA1(
                         color: Theme.of(context).primaryColorDark,
                         fontWeight: FontWeight.w600,

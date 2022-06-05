@@ -16,10 +16,11 @@ import '../../../model/otp.dart';
 part 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpState> {
-  OtpCubit(this.authenticationRepository, this.routeArguments)
+  OtpCubit(this.authenticationRepository,this.userRepository,  this.routeArguments)
       : super(OtpState());
 
   final AuthenticationRepository? authenticationRepository;
+  final UserRepository? userRepository;
   final RouteArguments? routeArguments;
 
   onOtpChanged({String? value}) {
@@ -39,7 +40,7 @@ class OtpCubit extends Cubit<OtpState> {
         OTPResponse otpResponse =
             OTPResponse.fromJson(jsonDecode(response.body));
         UserModel userModel = UserModel.fromJson(jsonDecode(response.body));
-        await UserRepository().setCurrentUser(response.body);
+        await userRepository!.setCurrentUser(response.body);
         emit(state.copyWith(statusAPI: FormzStatus.submissionSuccess));
 
         Helper.showToast('Success');
